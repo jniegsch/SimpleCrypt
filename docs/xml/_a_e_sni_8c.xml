@@ -1,0 +1,991 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="_a_e_sni_8c" kind="file" language="C++">
+    <compoundname>AESni.c</compoundname>
+    <includes refid="_a_e_sni_8h" local="yes">AESni.h</includes>
+    <incdepgraph>
+      <node id="0">
+        <label>src/AESni.c</label>
+        <link refid="_a_e_sni_8c"/>
+        <childnode refid="1" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AESni.h</label>
+        <link refid="_a_e_sni_8h"/>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="_a_e_sni_8c_1ad64c5463835b59c2527c228e9df65e37" prot="public" static="no">
+        <name>keygen_once_128</name>
+        <param><defname>i</defname></param>
+        <param><defname>p</defname></param>
+        <param><defname>rcon</defname></param>
+        <initializer>schedule[i] = aes_128_expAssist(schedule[p], _mm_aeskeygenassist_si128(schedule[p], rcon))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>keygen_once_128 Abstracts and cleans the key generation (expansion step) for AES-128 [1 step] </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESni.c" line="32" column="9" bodyfile="src/AESni.c" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_a_e_sni_8c_1a6245ab7697aaa5416646c62d5cb3815e" prot="public" static="no">
+        <name>keygen_three_192</name>
+        <param><defname>i</defname></param>
+        <param><defname>rcon1</defname></param>
+        <param><defname>rcon2</defname></param>
+        <initializer>schedule[i] = temp1;\
+			schedule[i+1] = temp3;\
+			temp2 = _mm_aeskeygenassist_si128 (temp3, rcon1);\
+			aes_192_expAssist(&amp;temp1, &amp;temp2, &amp;temp3);\
+			schedule[i+1] = (__m128i)_mm_shuffle_pd((__m128d)schedule[i+1], (__m128d)temp1,0);\
+			schedule[i+2] = (__m128i)_mm_shuffle_pd((__m128d)temp1, (__m128d)temp3, 1);\
+			temp2 = _mm_aeskeygenassist_si128 (temp3, rcon2);\
+			aes_192_expAssist(&amp;temp1, &amp;temp2, &amp;temp3)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>keygen_three_192 Abstracts and cleans the key generation (expansion step) for AES-192 [three steps] </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESni.c" line="38" column="9" bodyfile="src/AESni.c" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_a_e_sni_8c_1ab09341db2dcfcc6c6fcf8d6486b45bca" prot="public" static="no">
+        <name>keygen_twice_256</name>
+        <param><defname>i</defname></param>
+        <param><defname>rcon</defname></param>
+        <initializer>temp2 = _mm_aeskeygenassist_si128 (temp3, rcon);\
+			aes_256_expAssist1(&amp;temp1, &amp;temp2);\
+			schedule[i] = temp1;\
+			aes_256_expAssist2(&amp;temp1, &amp;temp3);\
+			schedule[i+1] = temp3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>keygen_twice_256 Abstracts and cleans the key generation (expansion step) for AES-256 [2 steps] </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESni.c" line="51" column="9" bodyfile="src/AESni.c" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="_a_e_sni_8c_1abdf98fa78e15fbbaafbfbf50e73446aa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void initializer</definition>
+        <argsstring>(void)</argsstring>
+        <name>initializer</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESni.c" line="61" column="1" bodyfile="src/AESni.c" bodystart="61" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="_a_e_sni_8c_1a4c378473ae20532605ee2c7f11951d07" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void finalizer</definition>
+        <argsstring>(void)</argsstring>
+        <name>finalizer</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESni.c" line="67" column="1" bodyfile="src/AESni.c" bodystart="67" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="_a_e_sni_8c_1aa38040aefaae7197f31ec3283f2f5a7b" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>__m128i</type>
+        <definition>static __m128i aes_128_expAssist</definition>
+        <argsstring>(__m128i temp1, __m128i temp2)</argsstring>
+        <name>aes_128_expAssist</name>
+        <param>
+          <type>__m128i</type>
+          <declname>temp1</declname>
+        </param>
+        <param>
+          <type>__m128i</type>
+          <declname>temp2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESni.c" line="72" column="1" bodyfile="src/AESni.c" bodystart="72" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="_a_e_sni_8c_1adc9b344881a914bc8bf81b9758b9cd38" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void aes_128_key_expansion</definition>
+        <argsstring>(__m128i *schedule, uint8_t *encKey)</argsstring>
+        <name>aes_128_key_expansion</name>
+        <param>
+          <type>__m128i *</type>
+          <declname>schedule</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>encKey</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESni.c" line="85" column="1" bodyfile="src/AESni.c" bodystart="85" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="_a_e_sni_8c_1a6e128c55d97fd22321a02542ce999ca2" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void aes_192_expAssist</definition>
+        <argsstring>(__m128i *temp1, __m128i *temp2, __m128i *temp3)</argsstring>
+        <name>aes_192_expAssist</name>
+        <param>
+          <type>__m128i *</type>
+          <declname>temp1</declname>
+        </param>
+        <param>
+          <type>__m128i *</type>
+          <declname>temp2</declname>
+        </param>
+        <param>
+          <type>__m128i *</type>
+          <declname>temp3</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESni.c" line="100" column="1" bodyfile="src/AESni.c" bodystart="100" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="_a_e_sni_8c_1afbb6d32cfca5cbf0420b46a664fb8d35" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void aes_192_key_expansion</definition>
+        <argsstring>(__m128i *schedule, uint8_t *encKey)</argsstring>
+        <name>aes_192_key_expansion</name>
+        <param>
+          <type>__m128i *</type>
+          <declname>schedule</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>encKey</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESni.c" line="116" column="1" bodyfile="src/AESni.c" bodystart="116" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="_a_e_sni_8c_1a510f8f3d2aad6121918a9fe48f51ed53" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void aes_256_expAssist1</definition>
+        <argsstring>(__m128i *temp1, __m128i *temp2)</argsstring>
+        <name>aes_256_expAssist1</name>
+        <param>
+          <type>__m128i *</type>
+          <declname>temp1</declname>
+        </param>
+        <param>
+          <type>__m128i *</type>
+          <declname>temp2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESni.c" line="130" column="1" bodyfile="src/AESni.c" bodystart="130" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="_a_e_sni_8c_1ad5eb66ee70279b797768dcf6beb2ed24" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void aes_256_expAssist2</definition>
+        <argsstring>(__m128i *temp1, __m128i *temp3)</argsstring>
+        <name>aes_256_expAssist2</name>
+        <param>
+          <type>__m128i *</type>
+          <declname>temp1</declname>
+        </param>
+        <param>
+          <type>__m128i *</type>
+          <declname>temp3</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESni.c" line="142" column="1" bodyfile="src/AESni.c" bodystart="142" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="_a_e_sni_8c_1af64c3c510db32900041bcb63b0d3029f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void aes_256_key_expansion</definition>
+        <argsstring>(__m128i *schedule, uint8_t *encKey)</argsstring>
+        <name>aes_256_key_expansion</name>
+        <param>
+          <type>__m128i *</type>
+          <declname>schedule</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>encKey</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESni.c" line="155" column="1" bodyfile="src/AESni.c" bodystart="155" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="_a_e_sni_8c_1a5c54c33b4cb1376ceb42c12d1b5256cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>__m128i *</type>
+        <definition>__m128i* load_key_expansion</definition>
+        <argsstring>(uint8_t *key, AESKeyMode keymode)</argsstring>
+        <name>load_key_expansion</name>
+        <param>
+          <type>uint8_t *</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="_a_e_sni_8h_1a42b3206764c080364694538d57a0c659" kindref="member">AESKeyMode</ref></type>
+          <declname>keymode</declname>
+        </param>
+        <briefdescription>
+<para>Loads the key expansion based on the passed key and keymode. </para>        </briefdescription>
+        <detaileddescription>
+<para>The key lenghts for the modes are as follows:</para><para>Possible values for the key mode and what it specifies:<itemizedlist>
+<listitem><para>aes_128:<programlisting><codeline><highlight class="normal">AES-128<sp/>[key<sp/>=<sp/>128bits,<sp/>AES<sp/>rounds<sp/>=<sp/>10]<sp/></highlight></codeline>
+</programlisting></para></listitem><listitem><para>aes_192:<programlisting><codeline><highlight class="normal">AES-192<sp/>[key<sp/>=<sp/>192bits,<sp/>AES<sp/>rounds<sp/>=<sp/>12]<sp/></highlight></codeline>
+</programlisting></para></listitem><listitem><para>aes_256:<programlisting><codeline><highlight class="normal">AES-256<sp/>[key<sp/>=<sp/>256bits,<sp/>AES<sp/>rounds<sp/>=<sp/>14]<sp/></highlight></codeline>
+</programlisting></para></listitem></itemizedlist>
+</para><para><simplesect kind="warning"><para>The passed key does not need to be null terminated, no checks will be made to ensure proper length.</para></simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A uint8_t array representing the key </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keymode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The keymode that should be used, either <bold>AES-128</bold>, <bold>AES-192</bold>, or <bold>AES-256</bold></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The key schedule for the requested AES keymode </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESni.c" line="175" column="1" bodyfile="src/AESni.c" bodystart="175" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="_a_e_sni_8c_1a715c57e731d131d7442c256a35236de8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void aes_ni_enc</definition>
+        <argsstring>(__m128i *data, __m128i *key_schedule, AESKeyMode keymode)</argsstring>
+        <name>aes_ni_enc</name>
+        <param>
+          <type>__m128i *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>__m128i *</type>
+          <declname>key_schedule</declname>
+        </param>
+        <param>
+          <type><ref refid="_a_e_sni_8h_1a42b3206764c080364694538d57a0c659" kindref="member">AESKeyMode</ref></type>
+          <declname>keymode</declname>
+        </param>
+        <briefdescription>
+<para>Encrypts the data using AES implemented directly on the Intel Chip. </para>        </briefdescription>
+        <detaileddescription>
+<para>Encryption and Decryption Core</para><para><linebreak/>
+Encrypts the data passed with the specified Key Schedule through AES using the key length set. The function is implemented using intel Intrinsics for greater performance.</para><para><simplesect kind="warning"><para>The encryption is done directly on the passed data array which must be 128 bits (16 bytes)</para></simplesect>
+<programlisting><codeline><highlight class="normal">char<sp/>*<sp/>fullMessage<sp/>=<sp/>...;</highlight></codeline>
+<codeline><highlight class="normal">uint8_t<sp/>*<sp/>userKey<sp/>=<sp/>...;<sp/>//<sp/>128bits<sp/>using<sp/>AES-128</highlight></codeline>
+<codeline><highlight class="normal">__m128i<sp/>*<sp/>keySchedule<sp/>=<sp/>loadKeyExpansion(userKey,<sp/>aes_128);</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Encrypt<sp/>the<sp/>first<sp/>16<sp/>bytes<sp/>AES-128</highlight></codeline>
+<codeline><highlight class="normal">aes_ni_enc((__m128i<sp/>*)fullMessage[0],<sp/>keySchedule,<sp/>aes_128);</highlight></codeline>
+</programlisting></para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The data to encrypt </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key_schedule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key schedule to use </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keymode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key mode specifying the key schedule length and AES mode </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESni.c" line="200" column="1" bodyfile="src/AESni.c" bodystart="200" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="_a_e_sni_8c_1ae036fa7b2c53b24d1a68b92c6a26757d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void aes_ni_dec</definition>
+        <argsstring>(__m128i *data, __m128i *key_schedule, AESKeyMode keymode)</argsstring>
+        <name>aes_ni_dec</name>
+        <param>
+          <type>__m128i *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>__m128i *</type>
+          <declname>key_schedule</declname>
+        </param>
+        <param>
+          <type><ref refid="_a_e_sni_8h_1a42b3206764c080364694538d57a0c659" kindref="member">AESKeyMode</ref></type>
+          <declname>keymode</declname>
+        </param>
+        <briefdescription>
+<para>Decrypts the data using AES implemented directly on the Intel Chip. </para>        </briefdescription>
+        <detaileddescription>
+<para>Decrypts the data passed with the specified Key Schedule through AES using the key length set. The function is implemented using intel Intrinsics for greater performance.</para><para><simplesect kind="warning"><para>The decryption is done directly on the passed data array which must be 128 bits (16 bytes)</para></simplesect>
+<programlisting><codeline><highlight class="normal">uint8_t<sp/>*<sp/>fullCipher<sp/>=<sp/>...;</highlight></codeline>
+<codeline><highlight class="normal">uint8_t<sp/>*<sp/>userKey<sp/>=<sp/>...;<sp/>//<sp/>128bits<sp/>using<sp/>AES-128</highlight></codeline>
+<codeline><highlight class="normal">__m128i<sp/>*<sp/>keySchedule<sp/>=<sp/>loadKeyExpansion(userKey,<sp/>aes_128);</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Decrypt<sp/>the<sp/>first<sp/>16<sp/>bytes<sp/>AES-128</highlight></codeline>
+<codeline><highlight class="normal">aes_ni_dec((__m128i<sp/>*)fullCipher[0],<sp/>keySchedule,<sp/>aes_128);</highlight></codeline>
+</programlisting></para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The data to decrypt </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key_schedule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key schedule to use </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keymode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key mode specifying the key schedule length and AES mode </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESni.c" line="223" column="1" bodyfile="src/AESni.c" bodystart="223" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="_a_e_sni_8c_1a2c6df8913bd9dd9309664e54f59da342" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void aes_cbc_ni_enc</definition>
+        <argsstring>(uint8_t *inpt, uint8_t *outt, uint8_t *ivec, unsigned long mlength, uint8_t *epoch_key, AESKeyMode keymode)</argsstring>
+        <name>aes_cbc_ni_enc</name>
+        <param>
+          <type>uint8_t *</type>
+          <declname>inpt</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>outt</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>ivec</declname>
+        </param>
+        <param>
+          <type>unsigned long</type>
+          <declname>mlength</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>epoch_key</declname>
+        </param>
+        <param>
+          <type><ref refid="_a_e_sni_8h_1a42b3206764c080364694538d57a0c659" kindref="member">AESKeyMode</ref></type>
+          <declname>keymode</declname>
+        </param>
+        <briefdescription>
+<para>Encrypts the data using Cipher Block Chain (CBC) AES implemented directly on the Intel Chip. </para>        </briefdescription>
+        <detaileddescription>
+<para>CBC Core</para><para><linebreak/>
+Encrypts the passed input data using CBC. The function is implemented using intel Intrinsics for greater performance.</para><para><simplesect kind="note"><para>CBC requires padding, which this function assumes you have already done </para></simplesect>
+<simplesect kind="warning"><para>The input length <bold>must</bold> be a multiple of 16 (use padding if necessary) . No checks are run to ensure input, ivec, or epoch key are the correct lengths</para></simplesect>
+Possible values for the key mode and what it specifies:<itemizedlist>
+<listitem><para>aes_128:<programlisting><codeline><highlight class="normal">AES-128<sp/>[key<sp/>=<sp/>128bits,<sp/>AES<sp/>rounds<sp/>=<sp/>10]<sp/></highlight></codeline>
+</programlisting></para></listitem><listitem><para>aes_192:<programlisting><codeline><highlight class="normal">AES-192<sp/>[key<sp/>=<sp/>192bits,<sp/>AES<sp/>rounds<sp/>=<sp/>12]<sp/></highlight></codeline>
+</programlisting></para></listitem><listitem><para>aes_256:<programlisting><codeline><highlight class="normal">AES-256<sp/>[key<sp/>=<sp/>256bits,<sp/>AES<sp/>rounds<sp/>=<sp/>14]<sp/></highlight></codeline>
+</programlisting></para></listitem></itemizedlist>
+</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>inpt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The data to encrypt using AES and CBC </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>outt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a <computeroutput>malloc</computeroutput>ed location where the encrypted data will be written </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ivec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The IV (Initial Vector) to be used for CBC </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mlength</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The length of the input message [in bytes] which is also the output (cipher) message length </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>epoch_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key (either defined by the user or generated by the software) that will be used for the key expansion to make the key schedule </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keymode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The AES mode (also defines the key length and number of rounds) [see the possible values above]</para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="see"><para><ulink url="https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Cipher_Block_Chaining_(CBC)">https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Cipher_Block_Chaining_(CBC)</ulink> </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESni.c" line="247" column="1" bodyfile="src/AESni.c" bodystart="247" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="_a_e_sni_8c_1ade9a9440626473e9f4414a0aff92ae54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void aes_cbc_ni_dec</definition>
+        <argsstring>(uint8_t *inpt, uint8_t *outt, uint8_t *ivec, unsigned long clength, uint8_t *epoch_key, AESKeyMode keymode)</argsstring>
+        <name>aes_cbc_ni_dec</name>
+        <param>
+          <type>uint8_t *</type>
+          <declname>inpt</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>outt</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>ivec</declname>
+        </param>
+        <param>
+          <type>unsigned long</type>
+          <declname>clength</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>epoch_key</declname>
+        </param>
+        <param>
+          <type><ref refid="_a_e_sni_8h_1a42b3206764c080364694538d57a0c659" kindref="member">AESKeyMode</ref></type>
+          <declname>keymode</declname>
+        </param>
+        <briefdescription>
+<para>Decrypts the data using Cipher Block Chain (CBC) AES implemented directly on the Intel Chip. </para>        </briefdescription>
+        <detaileddescription>
+<para>Decrypts the passed input data using CBC. The function is implemented using intel Intrinsics for greater performance.</para><para><simplesect kind="note"><para>CBC requires padding, which this function assumes you will remove yourself after returning </para></simplesect>
+<simplesect kind="warning"><para>The input length <bold>must</bold> be a multiple of 16. No checks are run to ensure input, ivec, or epoch key are the correct lengths</para></simplesect>
+Possible values for the key mode and what it specifies:<itemizedlist>
+<listitem><para>aes_128:<programlisting><codeline><highlight class="normal">AES-128<sp/>[key<sp/>=<sp/>128bits,<sp/>AES<sp/>rounds<sp/>=<sp/>10]<sp/></highlight></codeline>
+</programlisting></para></listitem><listitem><para>aes_192:<programlisting><codeline><highlight class="normal">AES-192<sp/>[key<sp/>=<sp/>192bits,<sp/>AES<sp/>rounds<sp/>=<sp/>12]<sp/></highlight></codeline>
+</programlisting></para></listitem><listitem><para>aes_256:<programlisting><codeline><highlight class="normal">AES-256<sp/>[key<sp/>=<sp/>256bits,<sp/>AES<sp/>rounds<sp/>=<sp/>14]<sp/></highlight></codeline>
+</programlisting></para></listitem></itemizedlist>
+</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>inpt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The data to decrypt using AES and CBC </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>outt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a <computeroutput>malloc</computeroutput>ed location where the decrypted data will be written </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ivec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The IV (Initial Vector) to be used for CBC decryption </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>clength</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The length of the input cipher [in bytes] which is also the output (message) length </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>epoch_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key (passed by the user) that will be used for the key expansion to make the key schedule to decrypt </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keymode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The AES mode (also defines the key length and number of rounds) [see the possible values above]</para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="see"><para><ulink url="https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Cipher_Block_Chaining_(CBC)">https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Cipher_Block_Chaining_(CBC)</ulink> </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESni.c" line="274" column="1" bodyfile="src/AESni.c" bodystart="274" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="_a_e_sni_8c_1ab3a399efd7b9d9f200fe14b5ce52cf85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void aes_ctr_ni</definition>
+        <argsstring>(uint8_t *inpt, uint8_t *outt, uint8_t *ivec, unsigned long mlength, uint8_t *epoch_key, AESKeyMode keymode)</argsstring>
+        <name>aes_ctr_ni</name>
+        <param>
+          <type>uint8_t *</type>
+          <declname>inpt</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>outt</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>ivec</declname>
+        </param>
+        <param>
+          <type>unsigned long</type>
+          <declname>mlength</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>epoch_key</declname>
+        </param>
+        <param>
+          <type><ref refid="_a_e_sni_8h_1a42b3206764c080364694538d57a0c659" kindref="member">AESKeyMode</ref></type>
+          <declname>keymode</declname>
+        </param>
+        <briefdescription>
+<para>Encrypts or Decrypts the data using Counter Mode (CTR) AES implemented directly on the Intel Chip. </para>        </briefdescription>
+        <detaileddescription>
+<para>CTR Core</para><para><linebreak/>
+Encrypts or Decrypts the passed input data using CTR. The function is implemented using intel Intrinsics for greater performance.</para><para><simplesect kind="note"><para>Due to the nature of CTR, encryption and decryption are the same so that does not have to be specified. If a non encrypted message is passed it will be encrypted, if an encrypted message is passed it will be decrypted </para></simplesect>
+<simplesect kind="warning"><para>No checks are run to ensure input, ivec, or epoch key are the correct lengths</para></simplesect>
+Possible values for the key mode and what it specifies:<itemizedlist>
+<listitem><para>aes_128:<programlisting><codeline><highlight class="normal">AES-128<sp/>[key<sp/>=<sp/>128bits,<sp/>AES<sp/>rounds<sp/>=<sp/>10]<sp/></highlight></codeline>
+</programlisting></para></listitem><listitem><para>aes_192:<programlisting><codeline><highlight class="normal">AES-192<sp/>[key<sp/>=<sp/>192bits,<sp/>AES<sp/>rounds<sp/>=<sp/>12]<sp/></highlight></codeline>
+</programlisting></para></listitem><listitem><para>aes_256:<programlisting><codeline><highlight class="normal">AES-256<sp/>[key<sp/>=<sp/>256bits,<sp/>AES<sp/>rounds<sp/>=<sp/>14]<sp/></highlight></codeline>
+</programlisting></para></listitem></itemizedlist>
+</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>inpt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The data to decrypt/decrypt using AES and CBC </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>outt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a <computeroutput>malloc</computeroutput>ed location where the decrypted/encrypted data will be written </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ivec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The IV (Initial Vector) to be used during the CTR process </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mlength</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The length of the input [in bytes] which is also the output length </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>epoch_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key (passed by the user) that will be used for the key expansion to make the key schedule to encrypt/decrypt </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keymode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The AES mode (also defines the key length and number of rounds) [see the possible values above]</para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="see"><para><ulink url="https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Counter_(CTR)">https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Counter_(CTR)</ulink> </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESni.c" line="302" column="1" bodyfile="src/AESni.c" bodystart="302" bodyend="329"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>The source file for the AES encryption (basic as well as CBC and CTR mode) implemented with Intel Intrinsics</para><para>08-23-2018  -fvisibility=hidden -maes <simplesect kind="version"><para>0.0.1 </para></simplesect>
+<simplesect kind="author"><para>Jan Niegsch </para></simplesect>
+</para>    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>AESni.c</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>IIAES</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Created<sp/>by<sp/>Developer<sp/>on<sp/>23.08.18.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Copyright<sp/>©<sp/>2018<sp/>jniegsch.<sp/>All<sp/>rights<sp/>reserved.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Compile<sp/>with<sp/>-fvisibility=hidden.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*<sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_a_e_sni_8h" kindref="compound">AESni.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>mark<sp/>-<sp/>Internal<sp/>Core<sp/>Definitions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="preprocessor">#define<sp/>keygen_once_128(i,<sp/>p,<sp/>rcon)\</highlight></codeline>
+<codeline lineno="33"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>schedule[i]<sp/>=<sp/>aes_128_expAssist(schedule[p],<sp/>_mm_aeskeygenassist_si128(schedule[p],<sp/>rcon))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="preprocessor">#define<sp/>keygen_three_192(i,<sp/>rcon1,<sp/>rcon2)\</highlight></codeline>
+<codeline lineno="39"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>schedule[i]<sp/>=<sp/>temp1;\</highlight></codeline>
+<codeline lineno="40"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>schedule[i+1]<sp/>=<sp/>temp3;\</highlight></codeline>
+<codeline lineno="41"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>temp2<sp/>=<sp/>_mm_aeskeygenassist_si128<sp/>(temp3,<sp/>rcon1);\</highlight></codeline>
+<codeline lineno="42"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aes_192_expAssist(&amp;temp1,<sp/>&amp;temp2,<sp/>&amp;temp3);\</highlight></codeline>
+<codeline lineno="43"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>schedule[i+1]<sp/>=<sp/>(__m128i)_mm_shuffle_pd((__m128d)schedule[i+1],<sp/>(__m128d)temp1,0);\</highlight></codeline>
+<codeline lineno="44"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>schedule[i+2]<sp/>=<sp/>(__m128i)_mm_shuffle_pd((__m128d)temp1,<sp/>(__m128d)temp3,<sp/>1);\</highlight></codeline>
+<codeline lineno="45"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>temp2<sp/>=<sp/>_mm_aeskeygenassist_si128<sp/>(temp3,<sp/>rcon2);\</highlight></codeline>
+<codeline lineno="46"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aes_192_expAssist(&amp;temp1,<sp/>&amp;temp2,<sp/>&amp;temp3)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="preprocessor">#define<sp/>keygen_twice_256(i,<sp/>rcon)\</highlight></codeline>
+<codeline lineno="52"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>temp2<sp/>=<sp/>_mm_aeskeygenassist_si128<sp/>(temp3,<sp/>rcon);\</highlight></codeline>
+<codeline lineno="53"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aes_256_expAssist1(&amp;temp1,<sp/>&amp;temp2);\</highlight></codeline>
+<codeline lineno="54"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>schedule[i]<sp/>=<sp/>temp1;\</highlight></codeline>
+<codeline lineno="55"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aes_256_expAssist2(&amp;temp1,<sp/>&amp;temp3);\</highlight></codeline>
+<codeline lineno="56"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>schedule[i+1]<sp/>=<sp/>temp3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>mark<sp/>-<sp/>Internal<sp/>Core</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>initializer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal">__attribute__((constructor))</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>initializer(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;[%s]<sp/>initialized\n&quot;</highlight><highlight class="normal">,<sp/>__FILE__);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>destroctor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal">__attribute__((destructor))</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>finalizer(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;[%s]<sp/>finalized\n&quot;</highlight><highlight class="normal">,<sp/>__FILE__);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>mark<sp/>-<sp/>Key<sp/>Management<sp/>128</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>__m128i<sp/>aes_128_expAssist(__m128i<sp/>temp1,<sp/>__m128i<sp/>temp2)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>__m128i<sp/>temp3;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>temp2<sp/>=<sp/>_mm_shuffle_epi32(temp2,<sp/>0xff);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>temp3<sp/>=<sp/>_mm_slli_si128(temp1,<sp/>0x4);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>temp1<sp/>=<sp/>_mm_xor_si128(temp1,<sp/>temp3);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>temp3<sp/>=<sp/>_mm_slli_si128(temp3,<sp/>0x4);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>temp1<sp/>=<sp/>_mm_xor_si128<sp/>(temp1,<sp/>temp3);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>temp3<sp/>=<sp/>_mm_slli_si128<sp/>(temp3,<sp/>0x4);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>temp1<sp/>=<sp/>_mm_xor_si128<sp/>(temp1,<sp/>temp3);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>temp1<sp/>=<sp/>_mm_xor_si128<sp/>(temp1,<sp/>temp2);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>temp1;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>aes_128_key_expansion(__m128i<sp/>*<sp/>schedule,<sp/>uint8_t<sp/>*<sp/>encKey)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>schedule[0]<sp/>=<sp/>_mm_loadu_si128((</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>__m128i<sp/>*)<sp/>encKey);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="_a_e_sni_8c_1ad64c5463835b59c2527c228e9df65e37" kindref="member">keygen_once_128</ref>(<sp/>1,<sp/>0,<sp/>0x01);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="_a_e_sni_8c_1ad64c5463835b59c2527c228e9df65e37" kindref="member">keygen_once_128</ref>(<sp/>2,<sp/>1,<sp/>0x02);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="_a_e_sni_8c_1ad64c5463835b59c2527c228e9df65e37" kindref="member">keygen_once_128</ref>(<sp/>3,<sp/>2,<sp/>0x04);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="_a_e_sni_8c_1ad64c5463835b59c2527c228e9df65e37" kindref="member">keygen_once_128</ref>(<sp/>4,<sp/>3,<sp/>0x08);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="_a_e_sni_8c_1ad64c5463835b59c2527c228e9df65e37" kindref="member">keygen_once_128</ref>(<sp/>5,<sp/>4,<sp/>0x10);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="_a_e_sni_8c_1ad64c5463835b59c2527c228e9df65e37" kindref="member">keygen_once_128</ref>(<sp/>6,<sp/>5,<sp/>0x20);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="_a_e_sni_8c_1ad64c5463835b59c2527c228e9df65e37" kindref="member">keygen_once_128</ref>(<sp/>7,<sp/>6,<sp/>0x40);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="_a_e_sni_8c_1ad64c5463835b59c2527c228e9df65e37" kindref="member">keygen_once_128</ref>(<sp/>8,<sp/>7,<sp/>0x80);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="_a_e_sni_8c_1ad64c5463835b59c2527c228e9df65e37" kindref="member">keygen_once_128</ref>(<sp/>9,<sp/>8,<sp/>0x1b);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="_a_e_sni_8c_1ad64c5463835b59c2527c228e9df65e37" kindref="member">keygen_once_128</ref>(10,<sp/>9,<sp/>0x36);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>mark<sp/>-<sp/>Key<sp/>Management<sp/>192</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>aes_192_expAssist(__m128i<sp/>*<sp/>temp1,<sp/>__m128i<sp/>*<sp/>temp2,<sp/>__m128i<sp/>*<sp/>temp3)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>__m128i<sp/>temp4;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>*temp2<sp/>=<sp/>_mm_shuffle_epi32<sp/>(*temp2,<sp/>0x55);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>temp4<sp/>=<sp/>_mm_slli_si128<sp/>(*temp1,<sp/>0x4);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>*temp1<sp/>=<sp/>_mm_xor_si128<sp/>(*temp1,<sp/>temp4);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>temp4<sp/>=<sp/>_mm_slli_si128<sp/>(temp4,<sp/>0x4);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>*temp1<sp/>=<sp/>_mm_xor_si128<sp/>(*temp1,<sp/>temp4);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>temp4<sp/>=<sp/>_mm_slli_si128<sp/>(temp4,<sp/>0x4);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>*temp1<sp/>=<sp/>_mm_xor_si128<sp/>(*temp1,<sp/>temp4);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>*temp1<sp/>=<sp/>_mm_xor_si128<sp/>(*temp1,<sp/>*temp2);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>*temp2<sp/>=<sp/>_mm_shuffle_epi32(*temp1,<sp/>0xff);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>temp4<sp/>=<sp/>_mm_slli_si128<sp/>(*temp3,<sp/>0x4);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>*temp3<sp/>=<sp/>_mm_xor_si128<sp/>(*temp3,<sp/>temp4);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>*temp3<sp/>=<sp/>_mm_xor_si128<sp/>(*temp3,<sp/>*temp2);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>aes_192_key_expansion(__m128i<sp/>*<sp/>schedule,<sp/>uint8_t<sp/>*<sp/>encKey)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>__m128i<sp/>temp1,<sp/>temp2,<sp/>temp3;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>temp1<sp/>=<sp/>_mm_loadu_si128((__m128i<sp/>*)encKey);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>temp3<sp/>=<sp/>_mm_loadu_si128((__m128i<sp/>*)(encKey<sp/>+<sp/>16));</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="_a_e_sni_8c_1a6245ab7697aaa5416646c62d5cb3815e" kindref="member">keygen_three_192</ref>(0,<sp/>0x01,<sp/>0x02);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="_a_e_sni_8c_1a6245ab7697aaa5416646c62d5cb3815e" kindref="member">keygen_three_192</ref>(3,<sp/>0x04,<sp/>0x08);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="_a_e_sni_8c_1a6245ab7697aaa5416646c62d5cb3815e" kindref="member">keygen_three_192</ref>(6,<sp/>0x10,<sp/>0x20);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="_a_e_sni_8c_1a6245ab7697aaa5416646c62d5cb3815e" kindref="member">keygen_three_192</ref>(9,<sp/>0x40,<sp/>0x80);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>schedule[12]<sp/>=<sp/>temp1;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>mark<sp/>-<sp/>Key<sp/>Management<sp/>256</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>aes_256_expAssist1(__m128i*<sp/>temp1,<sp/>__m128i<sp/>*<sp/>temp2)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>__m128i<sp/>temp4;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>*temp2<sp/>=<sp/>_mm_shuffle_epi32(*temp2,<sp/>0xff);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>temp4<sp/>=<sp/>_mm_slli_si128<sp/>(*temp1,<sp/>0x4);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>*temp1<sp/>=<sp/>_mm_xor_si128<sp/>(*temp1,<sp/>temp4);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>temp4<sp/>=<sp/>_mm_slli_si128<sp/>(temp4,<sp/>0x4);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>*temp1<sp/>=<sp/>_mm_xor_si128<sp/>(*temp1,<sp/>temp4);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>temp4<sp/>=<sp/>_mm_slli_si128<sp/>(temp4,<sp/>0x4);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>*temp1<sp/>=<sp/>_mm_xor_si128<sp/>(*temp1,<sp/>temp4);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>*temp1<sp/>=<sp/>_mm_xor_si128<sp/>(*temp1,<sp/>*temp2);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>aes_256_expAssist2(__m128i*<sp/>temp1,<sp/>__m128i<sp/>*<sp/>temp3)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>__m128i<sp/>temp2,<sp/>temp4;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>temp4<sp/>=<sp/>_mm_aeskeygenassist_si128<sp/>(*temp1,<sp/>0x0);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>temp2<sp/>=<sp/>_mm_shuffle_epi32(temp4,<sp/>0xaa);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>temp4<sp/>=<sp/>_mm_slli_si128<sp/>(*temp3,<sp/>0x4);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>*temp3<sp/>=<sp/>_mm_xor_si128<sp/>(*temp3,<sp/>temp4);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>temp4<sp/>=<sp/>_mm_slli_si128<sp/>(temp4,<sp/>0x4);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>*temp3<sp/>=<sp/>_mm_xor_si128<sp/>(*temp3,<sp/>temp4);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>temp4<sp/>=<sp/>_mm_slli_si128<sp/>(temp4,<sp/>0x4);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>*temp3<sp/>=<sp/>_mm_xor_si128<sp/>(*temp3,<sp/>temp4);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>*temp3<sp/>=<sp/>_mm_xor_si128<sp/>(*temp3,<sp/>temp2);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>aes_256_key_expansion(__m128i<sp/>*<sp/>schedule,<sp/>uint8_t<sp/>*<sp/>encKey)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>__m128i<sp/>temp1,<sp/>temp2,<sp/>temp3;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>temp1<sp/>=<sp/>_mm_loadu_si128((__m128i<sp/>*)encKey);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>temp3<sp/>=<sp/>_mm_loadu_si128((__m128i<sp/>*)(encKey<sp/>+<sp/>16));</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>schedule[0]<sp/>=<sp/>temp1;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>schedule[1]<sp/>=<sp/>temp3;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="_a_e_sni_8c_1ab09341db2dcfcc6c6fcf8d6486b45bca" kindref="member">keygen_twice_256</ref>(<sp/>2,<sp/>0x01);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="_a_e_sni_8c_1ab09341db2dcfcc6c6fcf8d6486b45bca" kindref="member">keygen_twice_256</ref>(<sp/>4,<sp/>0x02);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="_a_e_sni_8c_1ab09341db2dcfcc6c6fcf8d6486b45bca" kindref="member">keygen_twice_256</ref>(<sp/>6,<sp/>0x04);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="_a_e_sni_8c_1ab09341db2dcfcc6c6fcf8d6486b45bca" kindref="member">keygen_twice_256</ref>(<sp/>8,<sp/>0x08);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="_a_e_sni_8c_1ab09341db2dcfcc6c6fcf8d6486b45bca" kindref="member">keygen_twice_256</ref>(10,<sp/>0x10);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="_a_e_sni_8c_1ab09341db2dcfcc6c6fcf8d6486b45bca" kindref="member">keygen_twice_256</ref>(12,<sp/>0x20);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>temp2<sp/>=<sp/>_mm_aeskeygenassist_si128<sp/>(temp3,<sp/>0x40);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>aes_256_expAssist1(&amp;temp1,<sp/>&amp;temp2);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>schedule[14]<sp/>=<sp/>temp1;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>mark<sp/>-<sp/>Key<sp/>Management<sp/>Core</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal">__m128i<sp/>*<sp/><ref refid="_a_e_sni_8c_1a5c54c33b4cb1376ceb42c12d1b5256cb" kindref="member">load_key_expansion</ref>(uint8_t<sp/>*<sp/>key,<sp/><ref refid="_a_e_sni_8h_1a42b3206764c080364694538d57a0c659" kindref="member">AESKeyMode</ref><sp/>keymode)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>__m128i<sp/>*<sp/>keySchedule<sp/>=<sp/>malloc((keymode<sp/>+<sp/>1)<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(__m128i));</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(keymode)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>aes_128:</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aes_128_key_expansion(keySchedule,<sp/>key);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>aes_192:</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aes_192_key_expansion(keySchedule,<sp/>key);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>aes_256:</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aes_256_key_expansion(keySchedule,<sp/>key);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fprintf(stderr,<sp/></highlight><highlight class="stringliteral">&quot;[%s]<sp/>Fatal<sp/>Error:<sp/>an<sp/>invalid<sp/>aes<sp/>mode<sp/>was<sp/>passed.<sp/>\n<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&gt;<sp/>Even<sp/>though<sp/>Rijndael<sp/>supports<sp/>several<sp/>lengths<sp/>of<sp/>key<sp/>bits,<sp/>AES<sp/>is<sp/>defined<sp/>to<sp/>only<sp/>support<sp/>128,<sp/>192,<sp/>or<sp/>256<sp/>bits.\n&quot;</highlight><highlight class="normal">,<sp/>__FILE__);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>exit(EXIT_FAILURE);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>keySchedule;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>mark<sp/>-<sp/>Encryption<sp/>and<sp/>Decryption<sp/>Core</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="_a_e_sni_8c_1a715c57e731d131d7442c256a35236de8" kindref="member">aes_ni_enc</ref>(__m128i<sp/>*<sp/>data,<sp/>__m128i<sp/>*<sp/>key_schedule,<sp/><ref refid="_a_e_sni_8h_1a42b3206764c080364694538d57a0c659" kindref="member">AESKeyMode</ref><sp/>keymode)<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>*data<sp/>=<sp/>_mm_xor_si128(*data,<sp/>key_schedule[0]);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>unrolled<sp/>for<sp/>performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>*data<sp/>=<sp/>_mm_aesenc_si128(*data,<sp/>key_schedule[1]);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>*data<sp/>=<sp/>_mm_aesenc_si128(*data,<sp/>key_schedule[2]);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>*data<sp/>=<sp/>_mm_aesenc_si128(*data,<sp/>key_schedule[3]);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>*data<sp/>=<sp/>_mm_aesenc_si128(*data,<sp/>key_schedule[4]);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>*data<sp/>=<sp/>_mm_aesenc_si128(*data,<sp/>key_schedule[5]);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>*data<sp/>=<sp/>_mm_aesenc_si128(*data,<sp/>key_schedule[6]);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>*data<sp/>=<sp/>_mm_aesenc_si128(*data,<sp/>key_schedule[7]);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>*data<sp/>=<sp/>_mm_aesenc_si128(*data,<sp/>key_schedule[8]);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>*data<sp/>=<sp/>_mm_aesenc_si128(*data,<sp/>key_schedule[9]);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(keymode<sp/>&gt;<sp/>10)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*data<sp/>=<sp/>_mm_aesenc_si128(*data,<sp/>key_schedule[10]);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*data<sp/>=<sp/>_mm_aesenc_si128(*data,<sp/>key_schedule[11]);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(keymode<sp/>&gt;<sp/>12)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*data<sp/>=<sp/>_mm_aesenc_si128(*data,<sp/>key_schedule[12]);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*data<sp/>=<sp/>_mm_aesenc_si128(*data,<sp/>key_schedule[13]);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>*data<sp/>=<sp/>_mm_aesenclast_si128(*data,<sp/>key_schedule[keymode]);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="_a_e_sni_8c_1ae036fa7b2c53b24d1a68b92c6a26757d" kindref="member">aes_ni_dec</ref>(__m128i<sp/>*<sp/>data,<sp/>__m128i<sp/>*<sp/>key_schedule,<sp/><ref refid="_a_e_sni_8h_1a42b3206764c080364694538d57a0c659" kindref="member">AESKeyMode</ref><sp/>keymode)<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>*data<sp/>=<sp/>_mm_xor_si128(*data,<sp/>key_schedule[keymode]);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>unrolled<sp/>for<sp/>performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(keymode<sp/>&gt;<sp/>12)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*data<sp/>=<sp/>_mm_aesdec_si128(*data,<sp/>_mm_aesimc_si128(key_schedule[13]));</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*data<sp/>=<sp/>_mm_aesdec_si128(*data,<sp/>_mm_aesimc_si128(key_schedule[12]));</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(keymode<sp/>&gt;<sp/>10)<sp/>{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*data<sp/>=<sp/>_mm_aesdec_si128(*data,<sp/>_mm_aesimc_si128(key_schedule[11]));</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*data<sp/>=<sp/>_mm_aesdec_si128(*data,<sp/>_mm_aesimc_si128(key_schedule[10]));</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>*data<sp/>=<sp/>_mm_aesdec_si128(*data,<sp/>_mm_aesimc_si128(key_schedule[9]));</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>*data<sp/>=<sp/>_mm_aesdec_si128(*data,<sp/>_mm_aesimc_si128(key_schedule[8]));</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>*data<sp/>=<sp/>_mm_aesdec_si128(*data,<sp/>_mm_aesimc_si128(key_schedule[7]));</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>*data<sp/>=<sp/>_mm_aesdec_si128(*data,<sp/>_mm_aesimc_si128(key_schedule[6]));</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>*data<sp/>=<sp/>_mm_aesdec_si128(*data,<sp/>_mm_aesimc_si128(key_schedule[5]));</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>*data<sp/>=<sp/>_mm_aesdec_si128(*data,<sp/>_mm_aesimc_si128(key_schedule[4]));</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>*data<sp/>=<sp/>_mm_aesdec_si128(*data,<sp/>_mm_aesimc_si128(key_schedule[3]));</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>*data<sp/>=<sp/>_mm_aesdec_si128(*data,<sp/>_mm_aesimc_si128(key_schedule[2]));</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>*data<sp/>=<sp/>_mm_aesdec_si128(*data,<sp/>_mm_aesimc_si128(key_schedule[1]));</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>*data<sp/>=<sp/>_mm_aesdeclast_si128(*data,<sp/>key_schedule[0]);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>mark<sp/>-<sp/>CBC<sp/>Core</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="_a_e_sni_8c_1a2c6df8913bd9dd9309664e54f59da342" kindref="member">aes_cbc_ni_enc</ref>(uint8_t<sp/>*<sp/>inpt,</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint8_t<sp/>*<sp/>outt,</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint8_t<sp/>*<sp/>ivec,</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>mlength,</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint8_t<sp/>*<sp/>epoch_key,</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="_a_e_sni_8h_1a42b3206764c080364694538d57a0c659" kindref="member">AESKeyMode</ref><sp/>keymode)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>__m128i<sp/>feedback,<sp/>data;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(mlength<sp/>%<sp/>16)<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mlength<sp/>=<sp/>mlength<sp/>/<sp/>16<sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mlength<sp/>/=<sp/>16;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>__m128i<sp/>*<sp/>key_sched<sp/>=<sp/><ref refid="_a_e_sni_8c_1a5c54c33b4cb1376ceb42c12d1b5256cb" kindref="member">load_key_expansion</ref>(epoch_key,<sp/>keymode);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>feedback<sp/>=<sp/>_mm_loadu_si128((__m128i<sp/>*)ivec);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>mlength;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data<sp/>=<sp/>_mm_loadu_si128(&amp;((__m128i<sp/>*)inpt)[i]);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>feedback<sp/>=<sp/>_mm_xor_si128(data,<sp/>feedback);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="_a_e_sni_8c_1a715c57e731d131d7442c256a35236de8" kindref="member">aes_ni_enc</ref>(&amp;feedback,<sp/>key_sched,<sp/>keymode);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_mm_storeu_si128(&amp;((__m128i<sp/>*)outt)[i],<sp/>feedback);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="272"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="_a_e_sni_8c_1ade9a9440626473e9f4414a0aff92ae54" kindref="member">aes_cbc_ni_dec</ref>(uint8_t<sp/>*<sp/>inpt,</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint8_t<sp/>*<sp/>outt,</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint8_t<sp/>*<sp/>ivec,</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>clength,</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint8_t<sp/>*<sp/>epoch_key,</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="_a_e_sni_8h_1a42b3206764c080364694538d57a0c659" kindref="member">AESKeyMode</ref><sp/>keymode)<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>__m128i<sp/>feedback,<sp/>data,<sp/>last_in;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(clength<sp/>%<sp/>16)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>clength<sp/>=<sp/>clength<sp/>/<sp/>16<sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>clength<sp/>/=<sp/>16;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>__m128i<sp/>*<sp/>key_sched<sp/>=<sp/><ref refid="_a_e_sni_8c_1a5c54c33b4cb1376ceb42c12d1b5256cb" kindref="member">load_key_expansion</ref>(epoch_key,<sp/>keymode);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>feedback<sp/>=<sp/>_mm_loadu_si128((__m128i<sp/>*)<sp/>ivec);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>clength;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>last_in<sp/>=<sp/>_mm_loadu_si128(&amp;((__m128i<sp/>*)inpt)[i]);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data<sp/>=<sp/>last_in;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="_a_e_sni_8c_1ae036fa7b2c53b24d1a68b92c6a26757d" kindref="member">aes_ni_dec</ref>(&amp;data,<sp/>key_sched,<sp/>keymode);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data<sp/>=<sp/>_mm_xor_si128(data,<sp/>feedback);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_mm_storeu_si128(&amp;((__m128i<sp/>*)outt)[i],<sp/>data);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>feedback<sp/>=<sp/>last_in;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="299"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>mark<sp/>-<sp/>CTR<sp/>Core</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="_a_e_sni_8c_1ab3a399efd7b9d9f200fe14b5ce52cf85" kindref="member">aes_ctr_ni</ref>(uint8_t<sp/>*<sp/>inpt,</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint8_t<sp/>*<sp/>outt,</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint8_t<sp/>*<sp/>ivec,</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>mlength,</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint8_t<sp/>*<sp/>epoch_key,</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="_a_e_sni_8h_1a42b3206764c080364694538d57a0c659" kindref="member">AESKeyMode</ref><sp/>keymode)<sp/>{</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>__m128i<sp/>iv,<sp/>feedback,<sp/>data,<sp/>ONE;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(mlength<sp/>%<sp/>16)<sp/>{</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mlength<sp/>=<sp/>mlength<sp/>/<sp/>16<sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mlength<sp/>/=<sp/>16;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>__m128i<sp/>*<sp/>key_sched<sp/>=<sp/><ref refid="_a_e_sni_8c_1a5c54c33b4cb1376ceb42c12d1b5256cb" kindref="member">load_key_expansion</ref>(epoch_key,<sp/>keymode);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>ONE<sp/>=<sp/><sp/>_mm_set_epi8(1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>iv<sp/>=<sp/>_mm_loadu_si128((__m128i<sp/>*)<sp/>ivec);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>mlength;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>!=<sp/>0)</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>iv<sp/>=<sp/>_mm_add_epi8(iv,<sp/>ONE);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>feedback<sp/>=<sp/>iv;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="_a_e_sni_8c_1a715c57e731d131d7442c256a35236de8" kindref="member">aes_ni_enc</ref>(&amp;feedback,<sp/>key_sched,<sp/>keymode);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data<sp/>=<sp/>_mm_xor_si128(feedback,<sp/>_mm_loadu_si128(&amp;((__m128i<sp/>*)inpt)[i]));</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_mm_storeu_si128(&amp;((__m128i<sp/>*)outt)[i],<sp/>data);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="329"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/AESni.c"/>
+  </compounddef>
+</doxygen>
