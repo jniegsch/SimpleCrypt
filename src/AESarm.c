@@ -36,7 +36,8 @@ static void finalizer(void) {
 }
 
 #pragma mark - Key Management Internals
-// define sbox
+typedef __attribute__((neon_vector_type(6))) uint32_t uint32x6_t;
+
 uint8_t sBox[256] = {
 	0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76,
 	0xca, 0x82, 0xc9, 0x7d, 0xfa, 0x59, 0x47, 0xf0, 0xad, 0xd4, 0xa2, 0xaf, 0x9c, 0xa4, 0x72, 0xc0,
@@ -75,21 +76,92 @@ uint8_t sBoxInv[256] = {
   0x17, 0x2b, 0x04, 0x7e, 0xba, 0x77, 0xd6, 0x26, 0xe1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0c, 0x7d
 }
 
-static inline uint8_t[4] sub_word(uint8_t[4] inp) {
-	uint8_t word[4] = {sBox[(int)inp[0]], sBox[(int)inp[1]], sBox[(int)inp[2]], sBox[(int)inp[3]]}
-	return word;
+static inline uint32_t sub_word(uint32_t inp) {
+	uint8_t word[4];
+	word[0] = sBox[(uint8_t)((inp & 0xff000000) >> 24)];
+	word[1] = sBox[(uint8_t)((inp & 0x00ff0000) >> 16)];
+	word[2] = sBox[(uint8_t)((inp & 0x0000ff00) >>  8)];
+	word[3] = sBox[(uint8_t) (inp & 0x000000ff)];
+	return *(uint32_t *)word;
 }
 
-static inline uint8_t[4] rot_word(uint8_t[4] inp) {
-	uint8_t word[4] = {inp[1], inp[2], inp[3], inp[0]}
-	return word;
+static inline uint8_t[4] rot_word(uint32_t inp) {
+	uint8_t popOff =(inp & 0xff000000) >> 24;
+	uint32_t temp = (inp & 0x00ffffff) <<  8;
+	return (temp + popOff);
 }
 
-static uint8x16_t[11] key_expansion_128(uint8_t[16] encKey) {
-	uint8x16_t key[11];
-	key[0] = (encKey[0] << 24)  ;
+#pragma mark - Key Management 128
+static inline uint32x4_t aes_128_expAssist(uint32x4_t prev, uint32_t rcon) {
+	uint32x4_t round;
+	round[0] = sub_word(rot_word( prev[3])) ^ rcon ^ prev[0];
+	round[1] = sub_word(rot_word(round[0])) ^ rcon ^ prev[1];
+	round[2] = sub_word(rot_word(round[1])) ^ rcon ^ prev[2];
+	round[3] = sub_word(rot_word(round[2])) ^ rcon ^ prev[3];
 
+	return veorq_u32(round, prev);
+}
 
-	// unrolled for speed
-	key[4] = 
+static void key_expansion_128(uint32x4_t schedule[11], uint8x16_t encKey) {
+	schedule[ 0] = vld1q_u32(encKey);
+	schedule[ 1] = aes_128_expAssist(schedule[0], 0x01);
+	schedule[ 2] = aes_128_expAssist(schedule[1], 0x02);
+	schedule[ 3] = aes_128_expAssist(schedule[2], 0x04);
+	schedule[ 4] = aes_128_expAssist(schedule[3], 0x08);
+	schedule[ 5] = aes_128_expAssist(schedule[4], 0x10);
+	schedule[ 6] = aes_128_expAssist(schedule[5], 0x20);
+	schedule[ 7] = aes_128_expAssist(schedule[6], 0x40);
+	schedule[ 8] = aes_128_expAssist(schedule[7], 0x80);
+	schedule[ 9] = aes_128_expAssist(schedule[8], 0x1b);
+	schedule[10] = aes_128_expAssist(schedule[9], 0x36);
+}
+
+#pragma mark - Key Management 192
+static inline uint32x4_t[3] aes_192_expAssist(uint32x4_t prev, uint32x2_t * temp, uint32_t rcon1, uint32_t rcon2) {
+	uint32x4_t round1, round2, round3;
+	 
+	round1[ 0] = (*temp)[0];
+	round1[ 1] = (*temp)[1];
+	round1[ 2] = sub_word(rot_word( round1[1])) ^ rcon1 ^   prev[0];
+	round1[ 3] = sub_word(rot_word( round1[2])) ^ rcon1 ^   prev[1];
+
+	round2[ 0] = sub_word(rot_word( round1[3])) ^ rcon1 ^   prev[2];
+	round2[ 1] = sub_word(rot_word( round2[0])) ^ rcon1 ^   prev[3];
+	round2[ 2] = sub_word(rot_word( round2[1])) ^ rcon1 ^ round1[0];
+	round2[ 3] = sub_word(rot_word( round2[2])) ^ rcon1 ^ round1[1];
+
+	round3[ 0] = sub_word(rot_word( round2[3])) ^ rcon2 ^ round1[2];
+	round3[ 1] = sub_word(rot_word( round3[0])) ^ rcon2 ^ round1[3];
+	round3[ 2] = sub_word(rot_word( round3[1])) ^ rcon2 ^ round2[0];
+	round3[ 3] = sub_word(rot_word( round3[2])) ^ rcon2 ^ round2[1];
+	
+	(*temp)[0] = sub_word(rot_word( round3[3])) ^ rcon2 ^ round2[2];
+	(*temp)[1] = sub_word(rot_word((*temp)[0])) ^ rcon2 ^ round2[3];
+
+	return {round1, round2, round3};
+}
+
+static void key_expansion_192(uint32x4_t schedule[13], uint8x16_t encKey) {
+	uint32x2_t temp;
+	uint32x4_t trippleRounds[3];
+
+	schedule[0]    = vld1q_u32(encKey);
+	
+	temp           = vld1_u32(encKey + 16);
+	trippleRounds  = aes_192_expAssist(schedule[ 0], &temp, 0x01, 0x02);
+	schedule[ 1]   = trippleRounds[0];
+	schedule[ 2]   = trippleRounds[1];
+	schedule[ 3]   = trippleRounds[2];
+	trippleRounds  = aes_192_expAssist(schedule[ 0], &temp, 0x04, 0x08);
+	schedule[ 4]   = trippleRounds[0];
+	schedule[ 5]   = trippleRounds[1];
+	schedule[ 6]   = trippleRounds[2];
+	trippleRounds  = aes_192_expAssist(schedule[ 0], &temp, 0x10, 0x20);
+	schedule[ 7]   = trippleRounds[0];
+	schedule[ 8]   = trippleRounds[1];
+	schedule[ 9]   = trippleRounds[2];
+	trippleRounds  = aes_192_expAssist(schedule[ 0], &temp, 0x40, 0x80);
+	schedule[10]   = trippleRounds[0];
+	schedule[11]   = trippleRounds[1];
+	schedule[12]   = trippleRounds[2];
 }
