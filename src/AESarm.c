@@ -76,18 +76,12 @@ uint8_t sBoxInv[256] = {
 }
 
 static inline uint8_t[4] sub_word(uint8_t[4] inp) {
-	uint8_t word[4] = {sBox[(int)inp[0]],
-										 sBox[(int)inp[1]],
-										 sBox[(int)inp[2]],
-										 sBox[(int)inp[3]]}
+	uint8_t word[4] = {sBox[(int)inp[0]], sBox[(int)inp[1]], sBox[(int)inp[2]], sBox[(int)inp[3]]}
 	return word;
 }
 
 static inline uint8_t[4] rot_word(uint8_t[4] inp) {
-	uint8_t word[4] = {inp[1],
-										 inp[2],
-										 inp[3],
-										 ino[0]}
+	uint8_t word[4] = {inp[1], inp[2], inp[3], inp[0]}
 	return word;
 }
 
