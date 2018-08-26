@@ -21,16 +21,13 @@
 #ifndef AESarm_h
 #define AESarm_h
 
-#include <stdint.h>
+#include <stdlib.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <arm_neon.h>
 
 // check arm
 #if defined(__arm__) || defined(__aarch32__) || defined(__arm64__) || defined(__aarch64__) || defined(_M_ARM)
-	#if defined(__GNUC__)
-		#include <stdint.h>
-		#include <stdio.h>
-	#endif
 	#if defined(__ARM_NEON) || defined(__MSC_VER) || defined(_M_ARM)
 		#include <armintr.h>
 		#include <arm_neon.h>

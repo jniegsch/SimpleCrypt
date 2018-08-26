@@ -29,18 +29,18 @@
  Abstracts and cleans the key generation (expansion step) for AES-128 [1 step]
  */
 #define keygen_once_128(i, p, rcon)\
-			schedule[i] = aes_128_expAssist(schedule[p], _mm_aeskeygenassist_si128(schedule[p], rcon))
+			*schedule[i] = aes_128_expAssist(*schedule[p], _mm_aeskeygenassist_si128(*schedule[p], rcon))
 /*!
  @define keygen_three_192
  Abstracts and cleans the key generation (expansion step) for AES-192 [three steps]
  */
 #define keygen_three_192(i, rcon1, rcon2)\
-			schedule[i] = temp1;\
-			schedule[i+1] = temp3;\
+			*schedule[i] = temp1;\
+			*schedule[i+1] = temp3;\
 			temp2 = _mm_aeskeygenassist_si128 (temp3, rcon1);\
 			aes_192_expAssist(&temp1, &temp2, &temp3);\
-			schedule[i+1] = (__m128i)_mm_shuffle_pd((__m128d)schedule[i+1], (__m128d)temp1,0);\
-			schedule[i+2] = (__m128i)_mm_shuffle_pd((__m128d)temp1, (__m128d)temp3, 1);\
+			*schedule[i+1] = (__m128i)_mm_shuffle_pd((__m128d)*schedule[i+1], (__m128d)temp1,0);\
+			*schedule[i+2] = (__m128i)_mm_shuffle_pd((__m128d)temp1, (__m128d)temp3, 1);\
 			temp2 = _mm_aeskeygenassist_si128 (temp3, rcon2);\
 			aes_192_expAssist(&temp1, &temp2, &temp3)
 /*!
@@ -50,9 +50,9 @@
 #define keygen_twice_256(i, rcon)\
 			temp2 = _mm_aeskeygenassist_si128 (temp3, rcon);\
 			aes_256_expAssist1(&temp1, &temp2);\
-			schedule[i] = temp1;\
+			*schedule[i] = temp1;\
 			aes_256_expAssist2(&temp1, &temp3);\
-			schedule[i+1] = temp3
+			*schedule[i+1] = temp3
 
 #pragma mark - Internal Core
 // initializer
@@ -81,8 +81,8 @@ static inline __m128i aes_128_expAssist(__m128i temp1, __m128i temp2) {
 	return temp1;
 }
 
-static void aes_128_key_expansion(__m128i * schedule, uint8_t * encKey) {
-	schedule[0] = _mm_loadu_si128((const __m128i *) encKey);
+static void aes_128_key_expansion(__m128i ** schedule, uint8_t * encKey) {
+	*schedule[0] = _mm_loadu_si128((const __m128i *) encKey);
 	keygen_once_128( 1, 0, 0x01);
 	keygen_once_128( 2, 1, 0x02);
 	keygen_once_128( 3, 2, 0x04);
@@ -112,7 +112,7 @@ static inline void aes_192_expAssist(__m128i * temp1, __m128i * temp2, __m128i *
 	*temp3 = _mm_xor_si128 (*temp3, *temp2);
 }
 
-static void aes_192_key_expansion(__m128i * schedule, uint8_t * encKey) {
+static void aes_192_key_expansion(__m128i ** schedule, uint8_t * encKey) {
 	__m128i temp1, temp2, temp3;
 	
 	temp1 = _mm_loadu_si128((__m128i *)encKey);
@@ -122,11 +122,11 @@ static void aes_192_key_expansion(__m128i * schedule, uint8_t * encKey) {
 	keygen_three_192(3, 0x04, 0x08);
 	keygen_three_192(6, 0x10, 0x20);
 	keygen_three_192(9, 0x40, 0x80);
-	schedule[12] = temp1;
+	*schedule[12] = temp1;
 	
 }
 #pragma mark - Key Management 256
-static inline void aes_256_expAssist1(__m128i* temp1, __m128i * temp2) {
+static inline void aes_256_expAssist1(__m128i * temp1, __m128i * temp2) {
 	__m128i temp4;
 	*temp2 = _mm_shuffle_epi32(*temp2, 0xff);
 	temp4 = _mm_slli_si128 (*temp1, 0x4);
@@ -138,7 +138,7 @@ static inline void aes_256_expAssist1(__m128i* temp1, __m128i * temp2) {
 	*temp1 = _mm_xor_si128 (*temp1, *temp2);
 }
 
-static inline void aes_256_expAssist2(__m128i* temp1, __m128i * temp3) {
+static inline void aes_256_expAssist2(__m128i * temp1, __m128i * temp3) {
 	__m128i temp2, temp4;
 	temp4 = _mm_aeskeygenassist_si128 (*temp1, 0x0);
 	temp2 = _mm_shuffle_epi32(temp4, 0xaa);
@@ -151,14 +151,14 @@ static inline void aes_256_expAssist2(__m128i* temp1, __m128i * temp3) {
 	*temp3 = _mm_xor_si128 (*temp3, temp2);
 }
 
-static void aes_256_key_expansion(__m128i * schedule, uint8_t * encKey) {
+static void aes_256_key_expansion(__m128i ** schedule, uint8_t * encKey) {
 	__m128i temp1, temp2, temp3;
 	
 	temp1 = _mm_loadu_si128((__m128i *)encKey);
 	temp3 = _mm_loadu_si128((__m128i *)(encKey + 16));
 	
-	schedule[0] = temp1;
-	schedule[1] = temp3;
+	*schedule[0] = temp1;
+	*schedule[1] = temp3;
 	keygen_twice_256( 2, 0x01);
 	keygen_twice_256( 4, 0x02);
 	keygen_twice_256( 6, 0x04);
@@ -167,23 +167,23 @@ static void aes_256_key_expansion(__m128i * schedule, uint8_t * encKey) {
 	keygen_twice_256(12, 0x20);
 	temp2 = _mm_aeskeygenassist_si128 (temp3, 0x40);
 	aes_256_expAssist1(&temp1, &temp2);
-	schedule[14] = temp1;
+	*schedule[14] = temp1;
 }
 
 #pragma mark - Key Management Core
-__m128i * load_key_expansion(uint8_t * key, AESKeyMode keymode) {
+static inline __m128i * load_key_expansion(uint8_t * key, AESKeyMode keymode) {
 	__m128i * keySchedule = malloc((keymode + 1) * sizeof(__m128i));
 	switch (keymode) {
 		case aes_128:
-			aes_128_key_expansion(keySchedule, key);
+			aes_128_key_expansion(&keySchedule, key);
 			break;
 			
 		case aes_192:
-			aes_192_key_expansion(keySchedule, key);
+			aes_192_key_expansion(&keySchedule, key);
 			break;
 			
 		case aes_256:
-			aes_256_key_expansion(keySchedule, key);
+			aes_256_key_expansion(&keySchedule, key);
 			break;
 			
 		default:

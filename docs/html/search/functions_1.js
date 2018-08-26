@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['load_5fkey_5fexpansion',['load_key_expansion',['../_a_e_sni_8c.html#a5c54c33b4cb1376ceb42c12d1b5256cb',1,'load_key_expansion(uint8_t *key, AESKeyMode keymode):&#160;AESni.c'],['../_a_e_sni_8h.html#a5c54c33b4cb1376ceb42c12d1b5256cb',1,'load_key_expansion(uint8_t *key, AESKeyMode keymode):&#160;AESni.c']]]
+  ['inv_5fs_5fbox',['inv_s_box',['../AESCore_8c.html#af1c3a6ec74179802004bcb49541e16c6',1,'inv_s_box(uint8_t byte):&#160;AESCore.c'],['../AESCore_8h.html#af1c3a6ec74179802004bcb49541e16c6',1,'inv_s_box(uint8_t byte):&#160;AESCore.c']]]
 ];

@@ -22,6 +22,7 @@
 #ifdef __has_include
 	#if __has_include(<stdio.h>)
 		#include <stdio.h>
+		#include <stdlib.h>
 	#endif
 	# if __has_include(<wmmintrin.h>)
 		#include <wmmintrin.h>
@@ -52,26 +53,6 @@ typedef enum {
 	aes_192 = 12,
 	aes_256 = 14
 } AESKeyMode;
-
-/*!
- @brief Loads the key expansion based on the passed key and keymode.
- 
- The key lenghts for the modes are as follows:
- 
- Possible values for the key mode and what it specifies:
- - aes_128: @code AES-128 [key = 128bits, AES rounds = 10] @endcode
- - aes_192: @code AES-192 [key = 192bits, AES rounds = 12] @endcode
- - aes_256: @code AES-256 [key = 256bits, AES rounds = 14] @endcode
- 
- @warning The passed key does not need to be null terminated, no checks will be made to ensure proper length.
- 
- @param key A uint8_t array representing the key
- @param keymode The keymode that should be used, either <b>AES-128</b>, <b>AES-192</b>, or <b>AES-256</b>
- 
- @return The key schedule for the requested AES keymode
- */
-__attribute__((visibility("hidden"), nonnull(1), target("aes")))
-__m128i * load_key_expansion(uint8_t * key, AESKeyMode keymode);
 
 #pragma mark - Encryption and Decryption Core
 /*!
