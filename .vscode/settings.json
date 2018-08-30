@@ -1,9 +1,0 @@
-{
-  "C_Cpp.errorSquiggles": "Disabled",
-  "files.associations": {
-    "aescore.h": "c",
-    "aesarm.h": "c",
-    "stdint.h": "c",
-    "arm_neon.h": "c"
-  }
-}
