@@ -33,9 +33,10 @@
 
 #pragma mark - Key Management Internals
 /*!
- @group Key Management Internals
+ @name Key Management Internals
+ Definitions pertaining to the Key Management (expansion)
  */
-
+///@{
 /*!
  @typedef AESKeyMode
  
@@ -53,12 +54,14 @@ typedef enum {
 	aes_192 = 12,
 	aes_256 = 14
 } AESKeyMode;
+///@}
 
 #pragma mark - Encryption and Decryption Core
 /*!
- @functiongroup Encryption and Decryption Core
+	@name Encryption and Decryption Core
+	The core functions of AES encryption and decryption
  */
-
+///@{
 /*!
  @brief Encrypts the data using AES implemented directly on the Intel Chip
  
@@ -102,12 +105,14 @@ extern inline void aes_ni_enc(__m128i * data, __m128i * key_schedule, AESKeyMode
  */
 __attribute__((visibility("hidden"), nonnull(1, 2), target("aes")))
 extern inline void aes_ni_dec(__m128i * data, __m128i * key_schedule, AESKeyMode keymode);
+///@}
 
 #pragma mark - CBC Core
 /*!
- @functiongroup CBC Core
+	@name CBC Core
+	The functions related to encrypting and decrypting using the Cipher Block Chain approach.
  */
-
+///@{
 /*!
  @brief Encrypts the data using Cipher Block Chain (CBC) AES implemented directly on the Intel Chip
  
@@ -158,12 +163,14 @@ void aes_cbc_ni_enc(uint8_t * inpt, uint8_t * outt, uint8_t * ivec, unsigned lon
  */
 __attribute__((visibility("hidden"), nonnull(1, 2, 3, 5), target("aes")))
 void aes_cbc_ni_dec(uint8_t * inpt, uint8_t * outt, uint8_t * ivec, unsigned long clength, uint8_t * epoch_key, AESKeyMode keymode);
+///@}
 
 #pragma mark - CTR Core
 /*!
- @functiongroup CTR Core
+	@name CTR Core
+	The functions related to encrypting and decrypting using the CounTeR approach.
  */
-
+///@{
 /*!
  @brief Encrypts or Decrypts the data using Counter Mode (CTR) AES implemented directly on the Intel Chip
  
@@ -188,5 +195,6 @@ void aes_cbc_ni_dec(uint8_t * inpt, uint8_t * outt, uint8_t * ivec, unsigned lon
  */
 __attribute__((visibility("hidden"), nonnull(1, 2, 3, 5), target("aes")))
 void aes_ctr_ni(uint8_t * inpt, uint8_t * outt, uint8_t * ivec, unsigned long mlength, uint8_t * epoch_key, AESKeyMode keymode);
+///@}
 
 #endif /* AESni_h */

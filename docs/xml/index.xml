@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.8.14">
+  <compound refid="AESarm_8c" kind="file"><name>AESarm.c</name>
+    <member refid="AESarm_8c_1abdf98fa78e15fbbaafbfbf50e73446aa" kind="function"><name>initializer</name></member>
+    <member refid="AESarm_8c_1a4c378473ae20532605ee2c7f11951d07" kind="function"><name>finalizer</name></member>
+    <member refid="AESarm_8c_1a0bd49e479a1731b153c02ea3e6aa5692" kind="function"><name>aes_128_expAssist</name></member>
+    <member refid="AESarm_8c_1ad4136fcd5544438ff20189fb4433ea91" kind="function"><name>key_expansion_128</name></member>
+    <member refid="AESarm_8c_1a753724ca649c4d0e2f6d04a5056e100d" kind="function"><name>aes_192_expAssist</name></member>
+    <member refid="AESarm_8c_1a51da14fea4885f176ad1776067cba982" kind="function"><name>key_expansion_192</name></member>
+    <member refid="AESarm_8c_1a9ca803849fb994dd625de374223ec411" kind="function"><name>aes_256_expAssist</name></member>
+    <member refid="AESarm_8c_1aaae3d94ca5e3f255f5c20ce0d4a521f7" kind="function"><name>key_expansion_256</name></member>
+    <member refid="AESarm_8c_1a5cc577174e8faa1a6ee73a1b663014ad" kind="function"><name>load_key_expansion</name></member>
+  </compound>
+  <compound refid="AESarm_8h" kind="file"><name>AESarm.h</name>
+    <member refid="AESarm_8h_1a42b3206764c080364694538d57a0c659" kind="enum"><name>AESKeyMode</name></member>
+    <member refid="AESarm_8h_1a42b3206764c080364694538d57a0c659a15694b73ba8b45b9ff0abf3023a6384c" kind="enumvalue"><name>aes_128</name></member>
+    <member refid="AESarm_8h_1a42b3206764c080364694538d57a0c659abfa8069615d4eb6201a7934f28ebbac3" kind="enumvalue"><name>aes_192</name></member>
+    <member refid="AESarm_8h_1a42b3206764c080364694538d57a0c659a8246d89903c2f3c3d42588639f1becd4" kind="enumvalue"><name>aes_256</name></member>
+    <member refid="AESni_8h_1a42b3206764c080364694538d57a0c659a15694b73ba8b45b9ff0abf3023a6384c" kind="enumvalue"><name>aes_128</name></member>
+    <member refid="AESni_8h_1a42b3206764c080364694538d57a0c659abfa8069615d4eb6201a7934f28ebbac3" kind="enumvalue"><name>aes_192</name></member>
+    <member refid="AESni_8h_1a42b3206764c080364694538d57a0c659a8246d89903c2f3c3d42588639f1becd4" kind="enumvalue"><name>aes_256</name></member>
+  </compound>
+  <compound refid="AESCore_8c" kind="file"><name>AESCore.c</name>
+    <member refid="AESCore_8c_1a98084c2cc7f40527c199573112491644" kind="variable"><name>sBox</name></member>
+    <member refid="AESCore_8c_1a86e99b237807af74dd6a1e7e446fb193" kind="variable"><name>sBoxInv</name></member>
+    <member refid="AESCore_8c_1abdf98fa78e15fbbaafbfbf50e73446aa" kind="function"><name>initializer</name></member>
+    <member refid="AESCore_8c_1a4c378473ae20532605ee2c7f11951d07" kind="function"><name>finalizer</name></member>
+    <member refid="AESCore_8c_1a92f0d703e369816f15dc2f4a41599085" kind="function"><name>aes_mode_error</name></member>
+    <member refid="AESCore_8c_1a17c86bba109cf851608b9a515486adc1" kind="function"><name>s_box</name></member>
+    <member refid="AESCore_8c_1af1c3a6ec74179802004bcb49541e16c6" kind="function"><name>inv_s_box</name></member>
+    <member refid="AESCore_8c_1af8ac0519c6ca66f8c4a513815e68d3c1" kind="function"><name>sub_word</name></member>
+    <member refid="AESCore_8c_1a5d077e49e14f44ad41747b7771bc63eb" kind="function"><name>rot_word</name></member>
+  </compound>
+  <compound refid="AESCore_8h" kind="file"><name>AESCore.h</name>
+    <member refid="AESCore_8h_1a92f0d703e369816f15dc2f4a41599085" kind="function"><name>aes_mode_error</name></member>
+    <member refid="AESCore_8h_1a17c86bba109cf851608b9a515486adc1" kind="function"><name>s_box</name></member>
+    <member refid="AESCore_8h_1af1c3a6ec74179802004bcb49541e16c6" kind="function"><name>inv_s_box</name></member>
+    <member refid="AESCore_8h_1af8ac0519c6ca66f8c4a513815e68d3c1" kind="function"><name>sub_word</name></member>
+    <member refid="AESCore_8h_1a5d077e49e14f44ad41747b7771bc63eb" kind="function"><name>rot_word</name></member>
+  </compound>
+  <compound refid="AESni_8c" kind="file"><name>AESni.c</name>
+    <member refid="AESni_8c_1ad64c5463835b59c2527c228e9df65e37" kind="define"><name>keygen_once_128</name></member>
+    <member refid="AESni_8c_1a6245ab7697aaa5416646c62d5cb3815e" kind="define"><name>keygen_three_192</name></member>
+    <member refid="AESni_8c_1ab09341db2dcfcc6c6fcf8d6486b45bca" kind="define"><name>keygen_twice_256</name></member>
+    <member refid="AESni_8c_1abdf98fa78e15fbbaafbfbf50e73446aa" kind="function"><name>initializer</name></member>
+    <member refid="AESni_8c_1a4c378473ae20532605ee2c7f11951d07" kind="function"><name>finalizer</name></member>
+    <member refid="AESni_8c_1aa38040aefaae7197f31ec3283f2f5a7b" kind="function"><name>aes_128_expAssist</name></member>
+    <member refid="AESni_8c_1aa8e883f42bcf16a62b1f72a263aaf4a9" kind="function"><name>aes_128_key_expansion</name></member>
+    <member refid="AESni_8c_1a6e128c55d97fd22321a02542ce999ca2" kind="function"><name>aes_192_expAssist</name></member>
+    <member refid="AESni_8c_1ac3880afa27c69a6c7ebfa64153273dff" kind="function"><name>aes_192_key_expansion</name></member>
+    <member refid="AESni_8c_1a510f8f3d2aad6121918a9fe48f51ed53" kind="function"><name>aes_256_expAssist1</name></member>
+    <member refid="AESni_8c_1ad5eb66ee70279b797768dcf6beb2ed24" kind="function"><name>aes_256_expAssist2</name></member>
+    <member refid="AESni_8c_1a06a260a56f3eba261dad935c316ab93c" kind="function"><name>aes_256_key_expansion</name></member>
+    <member refid="AESni_8c_1aa5d679e4aaf5e95e905183613e35f0b8" kind="function"><name>load_key_expansion</name></member>
+    <member refid="AESni_8c_1a715c57e731d131d7442c256a35236de8" kind="function"><name>aes_ni_enc</name></member>
+    <member refid="AESni_8c_1ae036fa7b2c53b24d1a68b92c6a26757d" kind="function"><name>aes_ni_dec</name></member>
+    <member refid="AESni_8c_1a2c6df8913bd9dd9309664e54f59da342" kind="function"><name>aes_cbc_ni_enc</name></member>
+    <member refid="AESni_8c_1ade9a9440626473e9f4414a0aff92ae54" kind="function"><name>aes_cbc_ni_dec</name></member>
+    <member refid="AESni_8c_1ab3a399efd7b9d9f200fe14b5ce52cf85" kind="function"><name>aes_ctr_ni</name></member>
+  </compound>
+  <compound refid="AESni_8h" kind="file"><name>AESni.h</name>
+    <member refid="AESni_8h_1a42b3206764c080364694538d57a0c659" kind="enum"><name>AESKeyMode</name></member>
+    <member refid="AESarm_8h_1a42b3206764c080364694538d57a0c659a15694b73ba8b45b9ff0abf3023a6384c" kind="enumvalue"><name>aes_128</name></member>
+    <member refid="AESarm_8h_1a42b3206764c080364694538d57a0c659abfa8069615d4eb6201a7934f28ebbac3" kind="enumvalue"><name>aes_192</name></member>
+    <member refid="AESarm_8h_1a42b3206764c080364694538d57a0c659a8246d89903c2f3c3d42588639f1becd4" kind="enumvalue"><name>aes_256</name></member>
+    <member refid="AESni_8h_1a42b3206764c080364694538d57a0c659a15694b73ba8b45b9ff0abf3023a6384c" kind="enumvalue"><name>aes_128</name></member>
+    <member refid="AESni_8h_1a42b3206764c080364694538d57a0c659abfa8069615d4eb6201a7934f28ebbac3" kind="enumvalue"><name>aes_192</name></member>
+    <member refid="AESni_8h_1a42b3206764c080364694538d57a0c659a8246d89903c2f3c3d42588639f1becd4" kind="enumvalue"><name>aes_256</name></member>
+    <member refid="AESni_8h_1a715c57e731d131d7442c256a35236de8" kind="function"><name>aes_ni_enc</name></member>
+    <member refid="AESni_8h_1ae036fa7b2c53b24d1a68b92c6a26757d" kind="function"><name>aes_ni_dec</name></member>
+    <member refid="AESni_8h_1a2c6df8913bd9dd9309664e54f59da342" kind="function"><name>aes_cbc_ni_enc</name></member>
+    <member refid="AESni_8h_1ade9a9440626473e9f4414a0aff92ae54" kind="function"><name>aes_cbc_ni_dec</name></member>
+    <member refid="AESni_8h_1ab3a399efd7b9d9f200fe14b5ce52cf85" kind="function"><name>aes_ctr_ni</name></member>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
+  </compound>
+</doxygenindex>

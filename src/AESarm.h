@@ -24,6 +24,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+
+#include "AESCore.h"
 #include <arm_neon.h>
 
 // check arm
@@ -37,7 +39,7 @@
 		#include <arm64_neon.h>
 	#endif
 	#if defined(__GNUC__) && !defined(__apple_build_version__)
-		// apparently not supported on apple sys: https://github.com/noloader/AES-Intrinsics/blob/master/aes-arm.c
+		// apparently not supported on apple sas: https://github.com/noloader/AES-Intrinsics/blob/master/aes-arm.c
 		#if defined(__ARM_ACL) || defined(__ARM_FEATURE_CRYPTO)
 			#include <arm_acl.h>
 		#endif
@@ -67,6 +69,83 @@ typedef enum {
 	aes_256 = 14
 } AESKeyMode;
 
+#pragma mark - Key Management Core
+/*!
+	@name Key Management Core
+	ARM Intrinsic implemetation of the key loading sequence
+ */
+/// @{
+/*!
+	@brief Intrinsic implementation of the key loading (expansion) sequence
 
+	Takes an externally definied epoch key (usually passed by the user or generated
+	using a PRG). Based on the key mode chosen (AES-128, AES-192 or AES-256) the specific 
+	sequence is run and the key schedule is returned. 
+
+	@see AESKeyMode for information regarding the modes. 
+
+	@warning Only call this loader on ARM CPUs.
+	@information If you require CTR or CBC mode, you do not need to call this function, both
+	implementations take care of the key expansion internally.
+
+	@param key A `16 btye` userkey used for the key expansion
+	@param keymode The AES version to use
+
+	@returns The generated key schedule, where each key are 4 32 byte words (`uint32x4_t`) 
+	and the overall length depends on the amount of rounds defined by the AES version.
+ */
+__attribute__((visibility("hidden"), nonnull(1), target("arch=armv8-a+crypto")))
+extern inline uint32x4_t * load_key_expansion(uint8_t * key, AESKeyMode keymode);
+/// @}
+
+#pragma mark - Encryption and Decryption Core
+/*!
+	@name Encryption and Decryption Core
+	This group of functions handle the encryption and decryption defined by the AES NIST standard
+ */
+///@{
+/*!
+	@brief Encrypts the passed data using AES
+
+	Encrypts the data passed to the function using the AES algorithm defined by NIST. 
+	@warning The encryption is done directly on the passed data array which must be 128 bits (16 bytes)
+ 
+ @code
+ char * fullMessage = ...;
+ uint8_t * userKey = ...; // 128bits using AES-128
+ uint8x16_t * keySchedule = load_key_expansion(userKey, aes_128);
+ // Encrypt the first 16 bytes AES-128
+ aes_arm_enc((uint8x16_t *)fullMessage[0], keySchedule, aes_128);
+ @endcode
+
+ @param data The data to encrypt
+ @param keySchedule The key schedule to use
+ @param keymode The key mode specifying the key schedule length and AES mode
+
+ */
+__attribute__((visibility("hidden"), nonnull(1, 2), target("arch=armv8-a+crypto")))
+extern inline void aes_arm_enc(uint8x16_t * data, uint8x16_t * keySchedule, AESKeyMode keymode);
+
+/*!
+	@brief Decrypts the data using AES implemented directly on the Intel Chip
+ 
+ 	Decrypts the data passed with the specified Key Schedule through AES using the key length set. The function is implemented using intel Intrinsics for greater performance.
+ 
+ 	@warning The decryption is done directly on the passed data array which must be 128 bits (16 bytes)
+ 
+ 	@code
+ 	uint8_t * fullCipher = ...;
+ 	uint8_t * userKey = ...; // 128bits using AES-128
+ 	uint8x16_t * keySchedule = load_key_expansion(userKey, aes_128);
+ 	// Decrypt the first 16 bytes AES-128
+ 	aes_arm_dec((uint8x16_t *)fullCipher[0], keySchedule, aes_128);
+ 	@endcode
+ 
+ 	@param data The data to decrypt
+ 	@param keySchedule The key schedule to use
+ 	@param keymode The key mode specifying the key schedule length and AES mode
+ */
+__attribute__((visibility("hidden"), nonnull(1, 2), target("arch=armv8-a+crypto")))
+extern inline void aes_arm_dec(uint8x16_t * data, uint8x16_t * keySchedule, AESKeyMode keymode);
 
 #endif /* AESarm_h */

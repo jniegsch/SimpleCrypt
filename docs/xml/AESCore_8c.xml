@@ -1,0 +1,295 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="AESCore_8c" kind="file" language="C++">
+    <compoundname>AESCore.c</compoundname>
+    <includes refid="AESCore_8h" local="yes">AESCore.h</includes>
+    <incdepgraph>
+      <node id="20">
+        <label>stdint.h</label>
+      </node>
+      <node id="18">
+        <label>stdlib.h</label>
+      </node>
+      <node id="16">
+        <label>src/AESCore.c</label>
+        <link refid="AESCore_8c"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>AESCore.h</label>
+        <link refid="AESCore_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>stdio.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="AESCore_8c_1a98084c2cc7f40527c199573112491644" prot="public" static="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t sBox[256]</definition>
+        <argsstring>[256]</argsstring>
+        <name>sBox</name>
+        <initializer>= {
+	0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76,
+	0xca, 0x82, 0xc9, 0x7d, 0xfa, 0x59, 0x47, 0xf0, 0xad, 0xd4, 0xa2, 0xaf, 0x9c, 0xa4, 0x72, 0xc0,
+  0xb7, 0xfd, 0x93, 0x26, 0x36, 0x3f, 0xf7, 0xcc, 0x34, 0xa5, 0xe5, 0xf1, 0x71, 0xd8, 0x31, 0x15,
+  0x04, 0xc7, 0x23, 0xc3, 0x18, 0x96, 0x05, 0x9a, 0x07, 0x12, 0x80, 0xe2, 0xeb, 0x27, 0xb2, 0x75,
+  0x09, 0x83, 0x2c, 0x1a, 0x1b, 0x6e, 0x5a, 0xa0, 0x52, 0x3b, 0xd6, 0xb3, 0x29, 0xe3, 0x2f, 0x84,
+  0x53, 0xd1, 0x00, 0xed, 0x20, 0xfc, 0xb1, 0x5b, 0x6a, 0xcb, 0xbe, 0x39, 0x4a, 0x4c, 0x58, 0xcf,
+  0xd0, 0xef, 0xaa, 0xfb, 0x43, 0x4d, 0x33, 0x85, 0x45, 0xf9, 0x02, 0x7f, 0x50, 0x3c, 0x9f, 0xa8,
+  0x51, 0xa3, 0x40, 0x8f, 0x92, 0x9d, 0x38, 0xf5, 0xbc, 0xb6, 0xda, 0x21, 0x10, 0xff, 0xf3, 0xd2,
+  0xcd, 0x0c, 0x13, 0xec, 0x5f, 0x97, 0x44, 0x17, 0xc4, 0xa7, 0x7e, 0x3d, 0x64, 0x5d, 0x19, 0x73,
+  0x60, 0x81, 0x4f, 0xdc, 0x22, 0x2a, 0x90, 0x88, 0x46, 0xee, 0xb8, 0x14, 0xde, 0x5e, 0x0b, 0xdb,
+  0xe0, 0x32, 0x3a, 0x0a, 0x49, 0x06, 0x24, 0x5c, 0xc2, 0xd3, 0xac, 0x62, 0x91, 0x95, 0xe4, 0x79,
+  0xe7, 0xc8, 0x37, 0x6d, 0x8d, 0xd5, 0x4e, 0xa9, 0x6c, 0x56, 0xf4, 0xea, 0x65, 0x7a, 0xae, 0x08,
+  0xba, 0x78, 0x25, 0x2e, 0x1c, 0xa6, 0xb4, 0xc6, 0xe8, 0xdd, 0x74, 0x1f, 0x4b, 0xbd, 0x8b, 0x8a,
+  0x70, 0x3e, 0xb5, 0x66, 0x48, 0x03, 0xf6, 0x0e, 0x61, 0x35, 0x57, 0xb9, 0x86, 0xc1, 0x1d, 0x9e,
+  0xe1, 0xf8, 0x98, 0x11, 0x69, 0xd9, 0x8e, 0x94, 0x9b, 0x1e, 0x87, 0xe9, 0xce, 0x55, 0x28, 0xdf,
+  0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68, 0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESCore.c" line="43" column="1" bodyfile="src/AESCore.c" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="AESCore_8c_1a86e99b237807af74dd6a1e7e446fb193" prot="public" static="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t sBoxInv[256]</definition>
+        <argsstring>[256]</argsstring>
+        <name>sBoxInv</name>
+        <initializer>= {
+	0x52, 0x09, 0x6a, 0xd5, 0x30, 0x36, 0xa5, 0x38, 0xbf, 0x40, 0xa3, 0x9e, 0x81, 0xf3, 0xd7, 0xfb,
+	0x7c, 0xe3, 0x39, 0x82, 0x9b, 0x2f, 0xff, 0x87, 0x34, 0x8e, 0x43, 0x44, 0xc4, 0xde, 0xe9, 0xcb,
+  0x54, 0x7b, 0x94, 0x32, 0xa6, 0xc2, 0x23, 0x3d, 0xee, 0x4c, 0x95, 0x0b, 0x42, 0xfa, 0xc3, 0x4e,
+  0x08, 0x2e, 0xa1, 0x66, 0x28, 0xd9, 0x24, 0xb2, 0x76, 0x5b, 0xa2, 0x49, 0x6d, 0x8b, 0xd1, 0x25,
+  0x72, 0xf8, 0xf6, 0x64, 0x86, 0x68, 0x98, 0x16, 0xd4, 0xa4, 0x5c, 0xcc, 0x5d, 0x65, 0xb6, 0x92,
+  0x6c, 0x70, 0x48, 0x50, 0xfd, 0xed, 0xb9, 0xda, 0x5e, 0x15, 0x46, 0x57, 0xa7, 0x8d, 0x9d, 0x84,
+  0x90, 0xd8, 0xab, 0x00, 0x8c, 0xbc, 0xd3, 0x0a, 0xf7, 0xe4, 0x58, 0x05, 0xb8, 0xb3, 0x45, 0x06,
+  0xd0, 0x2c, 0x1e, 0x8f, 0xca, 0x3f, 0x0f, 0x02, 0xc1, 0xaf, 0xbd, 0x03, 0x01, 0x13, 0x8a, 0x6b,
+  0x3a, 0x91, 0x11, 0x41, 0x4f, 0x67, 0xdc, 0xea, 0x97, 0xf2, 0xcf, 0xce, 0xf0, 0xb4, 0xe6, 0x73,
+  0x96, 0xac, 0x74, 0x22, 0xe7, 0xad, 0x35, 0x85, 0xe2, 0xf9, 0x37, 0xe8, 0x1c, 0x75, 0xdf, 0x6e,
+  0x47, 0xf1, 0x1a, 0x71, 0x1d, 0x29, 0xc5, 0x89, 0x6f, 0xb7, 0x62, 0x0e, 0xaa, 0x18, 0xbe, 0x1b,
+  0xfc, 0x56, 0x3e, 0x4b, 0xc6, 0xd2, 0x79, 0x20, 0x9a, 0xdb, 0xc0, 0xfe, 0x78, 0xcd, 0x5a, 0xf4,
+  0x1c, 0xdd, 0xa8, 0x33, 0x88, 0x07, 0xc7, 0x31, 0xb1, 0x12, 0x10, 0x59, 0x27, 0x80, 0xec, 0x5f,
+  0x60, 0x51, 0x7f, 0xa9, 0x19, 0xb5, 0x4a, 0x0d, 0x2d, 0xe5, 0x7a, 0x9f, 0x93, 0xc9, 0x9c, 0xef,
+  0xa0, 0xe0, 0x3b, 0x4d, 0xae, 0x2a, 0xf5, 0xb0, 0xc8, 0xeb, 0xbb, 0x3c, 0x83, 0x53, 0x99, 0x61,
+  0x17, 0x2b, 0x04, 0x7e, 0xba, 0x77, 0xd6, 0x26, 0xe1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0c, 0x7d
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESCore.c" line="62" column="1" bodyfile="src/AESCore.c" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="AESCore_8c_1abdf98fa78e15fbbaafbfbf50e73446aa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void initializer</definition>
+        <argsstring>(void)</argsstring>
+        <name>initializer</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESCore.c" line="27" column="1" bodyfile="src/AESCore.c" bodystart="27" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="AESCore_8c_1a4c378473ae20532605ee2c7f11951d07" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void finalizer</definition>
+        <argsstring>(void)</argsstring>
+        <name>finalizer</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESCore.c" line="33" column="1" bodyfile="src/AESCore.c" bodystart="33" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="AESCore_8c_1a92f0d703e369816f15dc2f4a41599085" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char *</type>
+        <definition>char* aes_mode_error</definition>
+        <argsstring>(void)</argsstring>
+        <name>aes_mode_error</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Returns the standardized error message for a wrong AES key mode. </para>        </briefdescription>
+        <detaileddescription>
+<para>Returns the standardized error message for when a wrong AES key mode was passed. Message is: <programlisting><codeline><highlight class="normal">Fatal<sp/>Error:<sp/>an<sp/>invalid<sp/>aes<sp/>mode<sp/>was<sp/>passed.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&gt;<sp/>Even<sp/>though<sp/>Rijndael<sp/>supports<sp/>several<sp/>lengths<sp/>of<sp/>key<sp/>bits,<sp/>AES<sp/>is<sp/>defined<sp/>to<sp/>only<sp/>support<sp/>128,<sp/>192,<sp/>or<sp/>256<sp/>bits</highlight></codeline>
+</programlisting></para><para><simplesect kind="return"><para>A string for the specific error. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESCore.c" line="38" column="1" bodyfile="src/AESCore.c" bodystart="38" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="AESCore_8c_1a17c86bba109cf851608b9a515486adc1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t s_box</definition>
+        <argsstring>(uint8_t byte)</argsstring>
+        <name>s_box</name>
+        <param>
+          <type>uint8_t</type>
+          <declname>byte</declname>
+        </param>
+        <briefdescription>
+<para>Returns a byte transformed by the S-box. </para>        </briefdescription>
+        <detaileddescription>
+<para>Transforms the input byte using the AES S-box. The S-box is defined as follows: <programlisting><codeline><highlight class="normal">0x63,<sp/>0x7c,<sp/>0x77,<sp/>0x7b,<sp/>0xf2,<sp/>0x6b,<sp/>0x6f,<sp/>0xc5,<sp/>0x30,<sp/>0x01,<sp/>0x67,<sp/>0x2b,<sp/>0xfe,<sp/>0xd7,<sp/>0xab,<sp/>0x76,</highlight></codeline>
+<codeline><highlight class="normal">0xca,<sp/>0x82,<sp/>0xc9,<sp/>0x7d,<sp/>0xfa,<sp/>0x59,<sp/>0x47,<sp/>0xf0,<sp/>0xad,<sp/>0xd4,<sp/>0xa2,<sp/>0xaf,<sp/>0x9c,<sp/>0xa4,<sp/>0x72,<sp/>0xc0,</highlight></codeline>
+<codeline><highlight class="normal">0xb7,<sp/>0xfd,<sp/>0x93,<sp/>0x26,<sp/>0x36,<sp/>0x3f,<sp/>0xf7,<sp/>0xcc,<sp/>0x34,<sp/>0xa5,<sp/>0xe5,<sp/>0xf1,<sp/>0x71,<sp/>0xd8,<sp/>0x31,<sp/>0x15,</highlight></codeline>
+<codeline><highlight class="normal">0x04,<sp/>0xc7,<sp/>0x23,<sp/>0xc3,<sp/>0x18,<sp/>0x96,<sp/>0x05,<sp/>0x9a,<sp/>0x07,<sp/>0x12,<sp/>0x80,<sp/>0xe2,<sp/>0xeb,<sp/>0x27,<sp/>0xb2,<sp/>0x75,</highlight></codeline>
+<codeline><highlight class="normal">0x09,<sp/>0x83,<sp/>0x2c,<sp/>0x1a,<sp/>0x1b,<sp/>0x6e,<sp/>0x5a,<sp/>0xa0,<sp/>0x52,<sp/>0x3b,<sp/>0xd6,<sp/>0xb3,<sp/>0x29,<sp/>0xe3,<sp/>0x2f,<sp/>0x84,</highlight></codeline>
+<codeline><highlight class="normal">0x53,<sp/>0xd1,<sp/>0x00,<sp/>0xed,<sp/>0x20,<sp/>0xfc,<sp/>0xb1,<sp/>0x5b,<sp/>0x6a,<sp/>0xcb,<sp/>0xbe,<sp/>0x39,<sp/>0x4a,<sp/>0x4c,<sp/>0x58,<sp/>0xcf,</highlight></codeline>
+<codeline><highlight class="normal">0xd0,<sp/>0xef,<sp/>0xaa,<sp/>0xfb,<sp/>0x43,<sp/>0x4d,<sp/>0x33,<sp/>0x85,<sp/>0x45,<sp/>0xf9,<sp/>0x02,<sp/>0x7f,<sp/>0x50,<sp/>0x3c,<sp/>0x9f,<sp/>0xa8,</highlight></codeline>
+<codeline><highlight class="normal">0x51,<sp/>0xa3,<sp/>0x40,<sp/>0x8f,<sp/>0x92,<sp/>0x9d,<sp/>0x38,<sp/>0xf5,<sp/>0xbc,<sp/>0xb6,<sp/>0xda,<sp/>0x21,<sp/>0x10,<sp/>0xff,<sp/>0xf3,<sp/>0xd2,</highlight></codeline>
+<codeline><highlight class="normal">0xcd,<sp/>0x0c,<sp/>0x13,<sp/>0xec,<sp/>0x5f,<sp/>0x97,<sp/>0x44,<sp/>0x17,<sp/>0xc4,<sp/>0xa7,<sp/>0x7e,<sp/>0x3d,<sp/>0x64,<sp/>0x5d,<sp/>0x19,<sp/>0x73,</highlight></codeline>
+<codeline><highlight class="normal">0x60,<sp/>0x81,<sp/>0x4f,<sp/>0xdc,<sp/>0x22,<sp/>0x2a,<sp/>0x90,<sp/>0x88,<sp/>0x46,<sp/>0xee,<sp/>0xb8,<sp/>0x14,<sp/>0xde,<sp/>0x5e,<sp/>0x0b,<sp/>0xdb,</highlight></codeline>
+<codeline><highlight class="normal">0xe0,<sp/>0x32,<sp/>0x3a,<sp/>0x0a,<sp/>0x49,<sp/>0x06,<sp/>0x24,<sp/>0x5c,<sp/>0xc2,<sp/>0xd3,<sp/>0xac,<sp/>0x62,<sp/>0x91,<sp/>0x95,<sp/>0xe4,<sp/>0x79,</highlight></codeline>
+<codeline><highlight class="normal">0xe7,<sp/>0xc8,<sp/>0x37,<sp/>0x6d,<sp/>0x8d,<sp/>0xd5,<sp/>0x4e,<sp/>0xa9,<sp/>0x6c,<sp/>0x56,<sp/>0xf4,<sp/>0xea,<sp/>0x65,<sp/>0x7a,<sp/>0xae,<sp/>0x08,</highlight></codeline>
+<codeline><highlight class="normal">0xba,<sp/>0x78,<sp/>0x25,<sp/>0x2e,<sp/>0x1c,<sp/>0xa6,<sp/>0xb4,<sp/>0xc6,<sp/>0xe8,<sp/>0xdd,<sp/>0x74,<sp/>0x1f,<sp/>0x4b,<sp/>0xbd,<sp/>0x8b,<sp/>0x8a,</highlight></codeline>
+<codeline><highlight class="normal">0x70,<sp/>0x3e,<sp/>0xb5,<sp/>0x66,<sp/>0x48,<sp/>0x03,<sp/>0xf6,<sp/>0x0e,<sp/>0x61,<sp/>0x35,<sp/>0x57,<sp/>0xb9,<sp/>0x86,<sp/>0xc1,<sp/>0x1d,<sp/>0x9e,</highlight></codeline>
+<codeline><highlight class="normal">0xe1,<sp/>0xf8,<sp/>0x98,<sp/>0x11,<sp/>0x69,<sp/>0xd9,<sp/>0x8e,<sp/>0x94,<sp/>0x9b,<sp/>0x1e,<sp/>0x87,<sp/>0xe9,<sp/>0xce,<sp/>0x55,<sp/>0x28,<sp/>0xdf,</highlight></codeline>
+<codeline><highlight class="normal">0x8c,<sp/>0xa1,<sp/>0x89,<sp/>0x0d,<sp/>0xbf,<sp/>0xe6,<sp/>0x42,<sp/>0x68,<sp/>0x41,<sp/>0x99,<sp/>0x2d,<sp/>0x0f,<sp/>0xb0,<sp/>0x54,<sp/>0xbb,<sp/>0x16</highlight></codeline>
+</programlisting></para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>byte</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The input byte to transform using the S-box</para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A byte that is defined by the S-box when given a byte </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESCore.c" line="81" column="1" bodyfile="src/AESCore.c" bodystart="81" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="AESCore_8c_1af1c3a6ec74179802004bcb49541e16c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t inv_s_box</definition>
+        <argsstring>(uint8_t byte)</argsstring>
+        <name>inv_s_box</name>
+        <param>
+          <type>uint8_t</type>
+          <declname>byte</declname>
+        </param>
+        <briefdescription>
+<para>Returns a byte transformed by the inverse S-box. </para>        </briefdescription>
+        <detaileddescription>
+<para>Transforms the input byte using the AES inverse S-box. The inverse of the S-box is defined as follows: <programlisting><codeline><highlight class="normal">0x52,<sp/>0x09,<sp/>0x6a,<sp/>0xd5,<sp/>0x30,<sp/>0x36,<sp/>0xa5,<sp/>0x38,<sp/>0xbf,<sp/>0x40,<sp/>0xa3,<sp/>0x9e,<sp/>0x81,<sp/>0xf3,<sp/>0xd7,<sp/>0xfb,</highlight></codeline>
+<codeline><highlight class="normal">0x7c,<sp/>0xe3,<sp/>0x39,<sp/>0x82,<sp/>0x9b,<sp/>0x2f,<sp/>0xff,<sp/>0x87,<sp/>0x34,<sp/>0x8e,<sp/>0x43,<sp/>0x44,<sp/>0xc4,<sp/>0xde,<sp/>0xe9,<sp/>0xcb,</highlight></codeline>
+<codeline><highlight class="normal">0x54,<sp/>0x7b,<sp/>0x94,<sp/>0x32,<sp/>0xa6,<sp/>0xc2,<sp/>0x23,<sp/>0x3d,<sp/>0xee,<sp/>0x4c,<sp/>0x95,<sp/>0x0b,<sp/>0x42,<sp/>0xfa,<sp/>0xc3,<sp/>0x4e,</highlight></codeline>
+<codeline><highlight class="normal">0x08,<sp/>0x2e,<sp/>0xa1,<sp/>0x66,<sp/>0x28,<sp/>0xd9,<sp/>0x24,<sp/>0xb2,<sp/>0x76,<sp/>0x5b,<sp/>0xa2,<sp/>0x49,<sp/>0x6d,<sp/>0x8b,<sp/>0xd1,<sp/>0x25,</highlight></codeline>
+<codeline><highlight class="normal">0x72,<sp/>0xf8,<sp/>0xf6,<sp/>0x64,<sp/>0x86,<sp/>0x68,<sp/>0x98,<sp/>0x16,<sp/>0xd4,<sp/>0xa4,<sp/>0x5c,<sp/>0xcc,<sp/>0x5d,<sp/>0x65,<sp/>0xb6,<sp/>0x92,</highlight></codeline>
+<codeline><highlight class="normal">0x6c,<sp/>0x70,<sp/>0x48,<sp/>0x50,<sp/>0xfd,<sp/>0xed,<sp/>0xb9,<sp/>0xda,<sp/>0x5e,<sp/>0x15,<sp/>0x46,<sp/>0x57,<sp/>0xa7,<sp/>0x8d,<sp/>0x9d,<sp/>0x84,</highlight></codeline>
+<codeline><highlight class="normal">0x90,<sp/>0xd8,<sp/>0xab,<sp/>0x00,<sp/>0x8c,<sp/>0xbc,<sp/>0xd3,<sp/>0x0a,<sp/>0xf7,<sp/>0xe4,<sp/>0x58,<sp/>0x05,<sp/>0xb8,<sp/>0xb3,<sp/>0x45,<sp/>0x06,</highlight></codeline>
+<codeline><highlight class="normal">0xd0,<sp/>0x2c,<sp/>0x1e,<sp/>0x8f,<sp/>0xca,<sp/>0x3f,<sp/>0x0f,<sp/>0x02,<sp/>0xc1,<sp/>0xaf,<sp/>0xbd,<sp/>0x03,<sp/>0x01,<sp/>0x13,<sp/>0x8a,<sp/>0x6b,</highlight></codeline>
+<codeline><highlight class="normal">0x3a,<sp/>0x91,<sp/>0x11,<sp/>0x41,<sp/>0x4f,<sp/>0x67,<sp/>0xdc,<sp/>0xea,<sp/>0x97,<sp/>0xf2,<sp/>0xcf,<sp/>0xce,<sp/>0xf0,<sp/>0xb4,<sp/>0xe6,<sp/>0x73,</highlight></codeline>
+<codeline><highlight class="normal">0x96,<sp/>0xac,<sp/>0x74,<sp/>0x22,<sp/>0xe7,<sp/>0xad,<sp/>0x35,<sp/>0x85,<sp/>0xe2,<sp/>0xf9,<sp/>0x37,<sp/>0xe8,<sp/>0x1c,<sp/>0x75,<sp/>0xdf,<sp/>0x6e,</highlight></codeline>
+<codeline><highlight class="normal">0x47,<sp/>0xf1,<sp/>0x1a,<sp/>0x71,<sp/>0x1d,<sp/>0x29,<sp/>0xc5,<sp/>0x89,<sp/>0x6f,<sp/>0xb7,<sp/>0x62,<sp/>0x0e,<sp/>0xaa,<sp/>0x18,<sp/>0xbe,<sp/>0x1b,</highlight></codeline>
+<codeline><highlight class="normal">0xfc,<sp/>0x56,<sp/>0x3e,<sp/>0x4b,<sp/>0xc6,<sp/>0xd2,<sp/>0x79,<sp/>0x20,<sp/>0x9a,<sp/>0xdb,<sp/>0xc0,<sp/>0xfe,<sp/>0x78,<sp/>0xcd,<sp/>0x5a,<sp/>0xf4,</highlight></codeline>
+<codeline><highlight class="normal">0x1c,<sp/>0xdd,<sp/>0xa8,<sp/>0x33,<sp/>0x88,<sp/>0x07,<sp/>0xc7,<sp/>0x31,<sp/>0xb1,<sp/>0x12,<sp/>0x10,<sp/>0x59,<sp/>0x27,<sp/>0x80,<sp/>0xec,<sp/>0x5f,</highlight></codeline>
+<codeline><highlight class="normal">0x60,<sp/>0x51,<sp/>0x7f,<sp/>0xa9,<sp/>0x19,<sp/>0xb5,<sp/>0x4a,<sp/>0x0d,<sp/>0x2d,<sp/>0xe5,<sp/>0x7a,<sp/>0x9f,<sp/>0x93,<sp/>0xc9,<sp/>0x9c,<sp/>0xef,</highlight></codeline>
+<codeline><highlight class="normal">0xa0,<sp/>0xe0,<sp/>0x3b,<sp/>0x4d,<sp/>0xae,<sp/>0x2a,<sp/>0xf5,<sp/>0xb0,<sp/>0xc8,<sp/>0xeb,<sp/>0xbb,<sp/>0x3c,<sp/>0x83,<sp/>0x53,<sp/>0x99,<sp/>0x61,</highlight></codeline>
+<codeline><highlight class="normal">0x17,<sp/>0x2b,<sp/>0x04,<sp/>0x7e,<sp/>0xba,<sp/>0x77,<sp/>0xd6,<sp/>0x26,<sp/>0xe1,<sp/>0x69,<sp/>0x14,<sp/>0x63,<sp/>0x55,<sp/>0x21,<sp/>0x0c,<sp/>0x7d</highlight></codeline>
+</programlisting></para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>byte</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The input byte to transform using the inverse S-box</para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A byte that is defined by the inverse S-box when given a byte </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESCore.c" line="85" column="1" bodyfile="src/AESCore.c" bodystart="85" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="AESCore_8c_1af8ac0519c6ca66f8c4a513815e68d3c1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t sub_word</definition>
+        <argsstring>(uint32_t inp)</argsstring>
+        <name>sub_word</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>inp</declname>
+        </param>
+        <briefdescription>
+<para>Applies the SubWord of the AES algorithm. </para>        </briefdescription>
+        <detaileddescription>
+<para>The function takes a word (which is <computeroutput>4 bytes</computeroutput>) and applies the S-box to each byte to produce an output word.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>inp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The input word (<computeroutput>32 bits</computeroutput> or <computeroutput>4 bytes</computeroutput>)</para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A word resulting from the S-box transformation on the input word </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESCore.c" line="90" column="1" bodyfile="src/AESCore.c" bodystart="90" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="AESCore_8c_1a5d077e49e14f44ad41747b7771bc63eb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t rot_word</definition>
+        <argsstring>(uint32_t inp)</argsstring>
+        <name>rot_word</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>inp</declname>
+        </param>
+        <briefdescription>
+<para>Applies the RotWord of the AES algorithm. </para>        </briefdescription>
+        <detaileddescription>
+<para>The function takes a word (which is <computeroutput>4 bytes</computeroutput>) and performs a cyclic permutation. The permutation is as follows: <programlisting><codeline><highlight class="normal">[a_0,<sp/>a_1,<sp/>a_2,<sp/>a_3]<sp/>-&gt;<sp/>[a_1,<sp/>a_2,<sp/>a_3,<sp/>a_0]</highlight></codeline>
+</programlisting></para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>inp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The input word (<computeroutput>32 bits</computeroutput> or <computeroutput>4 bytes</computeroutput>)</para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A word resulting from the permutation on the input word </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESCore.c" line="98" column="1" bodyfile="src/AESCore.c" bodystart="98" bodyend="100"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>The source file of the library core which provides essentials used in all implementations</para><para>08-26-2018  -fvisibility=hidden <simplesect kind="version"><para>0.0.1 </para></simplesect>
+<simplesect kind="author"><para>Jan Niegsch </para></simplesect>
+</para>    </detaileddescription>
+    <location file="src/AESCore.c"/>
+  </compounddef>
+</doxygen>

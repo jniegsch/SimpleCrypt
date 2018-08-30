@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir">
+    <compoundname>src</compoundname>
+    <innerfile refid="AESarm_8c">AESarm.c</innerfile>
+    <innerfile refid="AESarm_8h">AESarm.h</innerfile>
+    <innerfile refid="AESCore_8c">AESCore.c</innerfile>
+    <innerfile refid="AESCore_8h">AESCore.h</innerfile>
+    <innerfile refid="AESni_8c">AESni.c</innerfile>
+    <innerfile refid="AESni_8h">AESni.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/"/>
+  </compounddef>
+</doxygen>

@@ -152,7 +152,7 @@ static void key_expansion_256(uint32x4_t * schedule[15], uint8x16_t encKey) {
 }
 
 #pragma mark - Key Management Core
-static inline uint32x4_t * load_key_expansion(uint8_t * key, AESKeyMode keymode) {
+inline uint32x4_t * load_key_expansion(uint8_t * key, AESKeyMode keymode) {
 	uint32x4_t * keySchedule = malloc((keymode + 1) * sizeof(uint32x4));
 	switch(keymode) {
 		case aes_128:
@@ -171,4 +171,121 @@ static inline uint32x4_t * load_key_expansion(uint8_t * key, AESKeyMode keymode)
 	}
 
 	return keySchedule;
+}
+
+#pragma mark - Encryption and Decryption Core
+inline void aes_arm_enc(uint8x16_t * data, uint8x16_t * keySchedule, AESKeyMode keymode) {
+	*data = veorq_u8(*data, keySchedule[ 0]));
+	//			 mix cols		encrypt
+	*data = vaesmcq_u8(vaeseq_u8(*data, (uint8x16_t)keySchedule[1]));
+	*data = vaesmcq_u8(vaeseq_u8(*data, (uint8x16_t)keySchedule[2]));
+	*data = vaesmcq_u8(vaeseq_u8(*data, (uint8x16_t)keySchedule[3]));
+	*data = vaesmcq_u8(vaeseq_u8(*data, (uint8x16_t)keySchedule[4]));
+	*data = vaesmcq_u8(vaeseq_u8(*data, (uint8x16_t)keySchedule[5]));
+	*data = vaesmcq_u8(vaeseq_u8(*data, (uint8x16_t)keySchedule[6]));
+	*data = vaesmcq_u8(vaeseq_u8(*data, (uint8x16_t)keySchedule[7]));
+	*data = vaesmcq_u8(vaeseq_u8(*data, (uint8x16_t)keySchedule[8]));
+	*data = vaesmcq_u8(vaeseq_u8(*data, (uint8x16_t)keySchedule[9]));
+	if (keymode > 10) {
+		*data = vaesmcq_u8(vaeseq_u8(*data, (uint8x16_t)keySchedule[10]));
+		*data = vaesmcq_u8(vaeseq_u8(*data, (uint8x16_t)keySchedule[11]));
+		if (keymode > 12) {
+			*data = vaesmcq_u8(vaeseq_u8(*data, (uint8x16_t)keySchedule[12]));
+			*data = vaesmcq_u8(vaeseq_u8(*data, (uint8x16_t)keySchedule[13]));
+		}
+	}
+	*data = vaeseq_u8(*data, keySchedule[keymode]);
+}
+
+inline void aes_arm_dec(uint8x16_t * data, uint8x16_t * keySchedule, AESKeyMode keymode) {
+	*data = veorq_u8(*data, keySchedule[keymode]);
+	if (keymode > 12) {
+		*data = vaesimcq_u8(vaesdq_u8(*data, (uint8x16_t)keySchedule[13]));
+		*data = vaesimcq_u8(vaesdq_u8(*data, (uint8x16_t)keySchedule[12]));
+	}
+	if (keymode > 10) {
+		*data = vaesimcq_u8(vaesdq_u8(*data, (uint8x16_t)keySchedule[11]));
+		*data = vaesimcq_u8(vaesdq_u8(*data, (uint8x16_t)keySchedule[10]));
+	}
+	*data = vaesimcq_u8(vaesdq_u8(*data, (uint8x16_t)keySchedule[ 9]));
+	*data = vaesimcq_u8(vaesdq_u8(*data, (uint8x16_t)keySchedule[ 8]));
+	*data = vaesimcq_u8(vaesdq_u8(*data, (uint8x16_t)keySchedule[ 7]));
+	*data = vaesimcq_u8(vaesdq_u8(*data, (uint8x16_t)keySchedule[ 6]));
+	*data = vaesimcq_u8(vaesdq_u8(*data, (uint8x16_t)keySchedule[ 5]));
+	*data = vaesimcq_u8(vaesdq_u8(*data, (uint8x16_t)keySchedule[ 4]));
+	*data = vaesimcq_u8(vaesdq_u8(*data, (uint8x16_t)keySchedule[ 3]));
+	*data = vaesimcq_u8(vaesdq_u8(*data, (uint8x16_t)keySchedule[ 2]));
+	*data = vaesimcq_u8(vaesdq_u8(*data, (uint8x16_t)keySchedule[ 1]));
+	*data = vaesdq_u8(*data, (uint8x16_t)keySchedule[0]);
+}
+
+#pragma mark - CBC Core
+void aes_cbc_arm_enc(uint8_t * input, uint8_t * output, uint8_t * ivec, unsigned long mlength, uint8_t * epochKey, AESKeyMode keymode) {
+	uint8x16_t feedback, data;
+
+	// check message length
+	if (mlength % 16) {
+		mlength = mlength / 16 + 1;
+	} else {
+		mlength /= 16;
+	}
+
+	// key exp
+	uint32x4_t * keySched = load_key_expansion(epochKey, keymode);
+	feedback = vld1q_u8((uint8x16_t *)ivec);
+	for (size_t i = 0; i < mlength; i++) {
+		data = vld1q_u8(((uint8x16_t *)input)[i]);
+		feedback = veor_u8(data, feedback);
+		aes_arm_enc(&feedback, keySched, keymode);
+		vst1q_u8(&((uint8x16_t *)output)[i], feedback);
+	}
+}
+
+void aes_cbc_arm_dec(uint8_t * input, uint8_t * output, uint8_t * ivec, unsigned long mlength, uint8_t * epochKey, AESKeyMode keymode) {
+	uint8x16_t feedback, data, lastIn;
+
+	// check message length
+	if (mlength % 16) {
+		mlength = mlength / 16 + 1;
+	} else {
+		mlength /= 16;
+	}
+
+	// key exp
+	uint32x4_t * keySched = load_key_expansion(epochKey, keymode);
+	feedback = vld1q_u8((uint8x16_t *)ivec);
+	for (size_t i = 0; i < mlength; i++) {
+		data = vld1q_u8(&((uint8x16_t *)input)[i]);
+		lastIn = data;
+		aes_arm_enc(&data, keySched, keymode);
+		data = veor_u8(data, feedback);
+		vst1q_u8(&((uint8x16_t *)output)[i], data);
+		feedback = lastIn;
+	}
+}
+
+#pragma mark - CTR Core
+void aes_ctr_arm(uint8_t * input, uint8_t * output, uint8_t * ivec, unsigned long mlength, uint8_t * epochKey, AESKeyMode keymode) {
+	uint8x16_t iv, feedback, data, ONE;
+
+	if (mlength % 16) {
+		mlength = mlength / 16 + 1;
+	} else {
+		mlength /= 16;
+	}
+
+	uint32x4_t * keySched = load_key_expansion(epochKey, keymode);
+
+	iv = vld1q_u8((uint8x16_t *)ivec);
+	ONE = vld1q_u8(&(uint8x16_t) 1);
+
+	for (size_t i = 0; i < mlength; i++) {
+		if (i != 0) {
+			iv = vaddq_u8(iv, ONE);
+		}
+		feedback = iv;
+		aes_arm_enc(&feedback, keySched, keymode);
+		data = veor_u8(feedback, vld1q_u8(&((uint8x16_t *)input)[i]));
+		vst1q_u8(&((uint8x16_t *)input)[i], data);
+	}
 }

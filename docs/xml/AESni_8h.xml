@@ -1,0 +1,471 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="AESni_8h" kind="file" language="C++">
+    <compoundname>AESni.h</compoundname>
+    <includedby refid="AESni_8c" local="yes">src/AESni.c</includedby>
+    <invincdepgraph>
+      <node id="35">
+        <label>src/AESni.c</label>
+        <link refid="AESni_8c"/>
+      </node>
+      <node id="34">
+        <label>src/AESni.h</label>
+        <link refid="AESni_8h"/>
+        <childnode refid="35" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+      <sectiondef kind="user-defined">
+      <header>Key Management Internals</header>
+      <description><para>Definitions pertaining to the Key Management (expansion) </para></description>
+      <memberdef kind="enum" id="AESni_8h_1a42b3206764c080364694538d57a0c659" prot="public" static="no" strong="no">
+        <type></type>
+        <name>AESKeyMode</name>
+        <enumvalue id="AESarm_8h_1a42b3206764c080364694538d57a0c659a15694b73ba8b45b9ff0abf3023a6384c" prot="public">
+          <name>aes_128</name>
+          <initializer>= 10</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="AESarm_8h_1a42b3206764c080364694538d57a0c659abfa8069615d4eb6201a7934f28ebbac3" prot="public">
+          <name>aes_192</name>
+          <initializer>= 12</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="AESarm_8h_1a42b3206764c080364694538d57a0c659a8246d89903c2f3c3d42588639f1becd4" prot="public">
+          <name>aes_256</name>
+          <initializer>= 14</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="AESni_8h_1a42b3206764c080364694538d57a0c659a15694b73ba8b45b9ff0abf3023a6384c" prot="public">
+          <name>aes_128</name>
+          <initializer>= 10</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="AESni_8h_1a42b3206764c080364694538d57a0c659abfa8069615d4eb6201a7934f28ebbac3" prot="public">
+          <name>aes_192</name>
+          <initializer>= 12</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="AESni_8h_1a42b3206764c080364694538d57a0c659a8246d89903c2f3c3d42588639f1becd4" prot="public">
+          <name>aes_256</name>
+          <initializer>= 14</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESni.h" line="52" column="1" bodyfile="src/AESni.h" bodystart="52" bodyend="56"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="user-defined">
+      <header>Encryption and Decryption Core</header>
+      <description><para>The core functions of AES encryption and decryption </para></description>
+      <memberdef kind="function" id="AESni_8h_1a715c57e731d131d7442c256a35236de8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void aes_ni_enc</definition>
+        <argsstring>(__m128i *data, __m128i *key_schedule, AESKeyMode keymode)</argsstring>
+        <name>aes_ni_enc</name>
+        <param>
+          <type>__m128i *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>__m128i *</type>
+          <declname>key_schedule</declname>
+        </param>
+        <param>
+          <type><ref refid="AESarm_8h_1a42b3206764c080364694538d57a0c659" kindref="member">AESKeyMode</ref></type>
+          <declname>keymode</declname>
+        </param>
+        <briefdescription>
+<para>Encrypts the data using AES implemented directly on the Intel Chip. </para>        </briefdescription>
+        <detaileddescription>
+<para>Encrypts the data passed with the specified Key Schedule through AES using the key length set. The function is implemented using intel Intrinsics for greater performance.</para><para><simplesect kind="warning"><para>The encryption is done directly on the passed data array which must be 128 bits (16 bytes)</para></simplesect>
+<programlisting><codeline><highlight class="normal">char<sp/>*<sp/>fullMessage<sp/>=<sp/>...;</highlight></codeline>
+<codeline><highlight class="normal">uint8_t<sp/>*<sp/>userKey<sp/>=<sp/>...;<sp/>//<sp/>128bits<sp/>using<sp/>AES-128</highlight></codeline>
+<codeline><highlight class="normal">__m128i<sp/>*<sp/>keySchedule<sp/>=<sp/>loadKeyExpansion(userKey,<sp/>aes_128);</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Encrypt<sp/>the<sp/>first<sp/>16<sp/>bytes<sp/>AES-128</highlight></codeline>
+<codeline><highlight class="normal">aes_ni_enc((__m128i<sp/>*)fullMessage[0],<sp/>keySchedule,<sp/>aes_128);</highlight></codeline>
+</programlisting></para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The data to encrypt </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key_schedule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key schedule to use </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keymode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key mode specifying the key schedule length and AES mode </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESni.h" line="85" column="1" bodyfile="src/AESni.c" bodystart="199" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="AESni_8h_1ae036fa7b2c53b24d1a68b92c6a26757d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void aes_ni_dec</definition>
+        <argsstring>(__m128i *data, __m128i *key_schedule, AESKeyMode keymode)</argsstring>
+        <name>aes_ni_dec</name>
+        <param>
+          <type>__m128i *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>__m128i *</type>
+          <declname>key_schedule</declname>
+        </param>
+        <param>
+          <type><ref refid="AESarm_8h_1a42b3206764c080364694538d57a0c659" kindref="member">AESKeyMode</ref></type>
+          <declname>keymode</declname>
+        </param>
+        <briefdescription>
+<para>Decrypts the data using AES implemented directly on the Intel Chip. </para>        </briefdescription>
+        <detaileddescription>
+<para>Decrypts the data passed with the specified Key Schedule through AES using the key length set. The function is implemented using intel Intrinsics for greater performance.</para><para><simplesect kind="warning"><para>The decryption is done directly on the passed data array which must be 128 bits (16 bytes)</para></simplesect>
+<programlisting><codeline><highlight class="normal">uint8_t<sp/>*<sp/>fullCipher<sp/>=<sp/>...;</highlight></codeline>
+<codeline><highlight class="normal">uint8_t<sp/>*<sp/>userKey<sp/>=<sp/>...;<sp/>//<sp/>128bits<sp/>using<sp/>AES-128</highlight></codeline>
+<codeline><highlight class="normal">__m128i<sp/>*<sp/>keySchedule<sp/>=<sp/>loadKeyExpansion(userKey,<sp/>aes_128);</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Decrypt<sp/>the<sp/>first<sp/>16<sp/>bytes<sp/>AES-128</highlight></codeline>
+<codeline><highlight class="normal">aes_ni_dec((__m128i<sp/>*)fullCipher[0],<sp/>keySchedule,<sp/>aes_128);</highlight></codeline>
+</programlisting></para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The data to decrypt </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key_schedule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key schedule to use </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keymode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key mode specifying the key schedule length and AES mode </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESni.h" line="107" column="1" bodyfile="src/AESni.c" bodystart="222" bodyend="243"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="user-defined">
+      <header>CBC Core</header>
+      <description><para>The functions related to encrypting and decrypting using the Cipher Block Chain approach. </para></description>
+      <memberdef kind="function" id="AESni_8h_1a2c6df8913bd9dd9309664e54f59da342" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void aes_cbc_ni_enc</definition>
+        <argsstring>(uint8_t *inpt, uint8_t *outt, uint8_t *ivec, unsigned long mlength, uint8_t *epoch_key, AESKeyMode keymode)</argsstring>
+        <name>aes_cbc_ni_enc</name>
+        <param>
+          <type>uint8_t *</type>
+          <declname>inpt</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>outt</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>ivec</declname>
+        </param>
+        <param>
+          <type>unsigned long</type>
+          <declname>mlength</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>epoch_key</declname>
+        </param>
+        <param>
+          <type><ref refid="AESarm_8h_1a42b3206764c080364694538d57a0c659" kindref="member">AESKeyMode</ref></type>
+          <declname>keymode</declname>
+        </param>
+        <briefdescription>
+<para>Encrypts the data using Cipher Block Chain (CBC) AES implemented directly on the Intel Chip. </para>        </briefdescription>
+        <detaileddescription>
+<para>Encrypts the passed input data using CBC. The function is implemented using intel Intrinsics for greater performance.</para><para><simplesect kind="note"><para>CBC requires padding, which this function assumes you have already done </para></simplesect>
+<simplesect kind="warning"><para>The input length <bold>must</bold> be a multiple of 16 (use padding if necessary) . No checks are run to ensure input, ivec, or epoch key are the correct lengths</para></simplesect>
+Possible values for the key mode and what it specifies:<itemizedlist>
+<listitem><para>aes_128:<programlisting><codeline><highlight class="normal">AES-128<sp/>[key<sp/>=<sp/>128bits,<sp/>AES<sp/>rounds<sp/>=<sp/>10]<sp/></highlight></codeline>
+</programlisting></para></listitem><listitem><para>aes_192:<programlisting><codeline><highlight class="normal">AES-192<sp/>[key<sp/>=<sp/>192bits,<sp/>AES<sp/>rounds<sp/>=<sp/>12]<sp/></highlight></codeline>
+</programlisting></para></listitem><listitem><para>aes_256:<programlisting><codeline><highlight class="normal">AES-256<sp/>[key<sp/>=<sp/>256bits,<sp/>AES<sp/>rounds<sp/>=<sp/>14]<sp/></highlight></codeline>
+</programlisting></para></listitem></itemizedlist>
+</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>inpt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The data to encrypt using AES and CBC </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>outt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a <computeroutput>malloc</computeroutput>ed location where the encrypted data will be written </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ivec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The IV (Initial Vector) to be used for CBC </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mlength</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The length of the input message [in bytes] which is also the output (cipher) message length </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>epoch_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key (either defined by the user or generated by the software) that will be used for the key expansion to make the key schedule </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keymode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The AES mode (also defines the key length and number of rounds) [see the possible values above]</para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="see"><para><ulink url="https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Cipher_Block_Chaining_(CBC)">https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Cipher_Block_Chaining_(CBC)</ulink> </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESni.h" line="140" column="1" bodyfile="src/AESni.c" bodystart="246" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="AESni_8h_1ade9a9440626473e9f4414a0aff92ae54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void aes_cbc_ni_dec</definition>
+        <argsstring>(uint8_t *inpt, uint8_t *outt, uint8_t *ivec, unsigned long clength, uint8_t *epoch_key, AESKeyMode keymode)</argsstring>
+        <name>aes_cbc_ni_dec</name>
+        <param>
+          <type>uint8_t *</type>
+          <declname>inpt</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>outt</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>ivec</declname>
+        </param>
+        <param>
+          <type>unsigned long</type>
+          <declname>clength</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>epoch_key</declname>
+        </param>
+        <param>
+          <type><ref refid="AESarm_8h_1a42b3206764c080364694538d57a0c659" kindref="member">AESKeyMode</ref></type>
+          <declname>keymode</declname>
+        </param>
+        <briefdescription>
+<para>Decrypts the data using Cipher Block Chain (CBC) AES implemented directly on the Intel Chip. </para>        </briefdescription>
+        <detaileddescription>
+<para>Decrypts the passed input data using CBC. The function is implemented using intel Intrinsics for greater performance.</para><para><simplesect kind="note"><para>CBC requires padding, which this function assumes you will remove yourself after returning </para></simplesect>
+<simplesect kind="warning"><para>The input length <bold>must</bold> be a multiple of 16. No checks are run to ensure input, ivec, or epoch key are the correct lengths</para></simplesect>
+Possible values for the key mode and what it specifies:<itemizedlist>
+<listitem><para>aes_128:<programlisting><codeline><highlight class="normal">AES-128<sp/>[key<sp/>=<sp/>128bits,<sp/>AES<sp/>rounds<sp/>=<sp/>10]<sp/></highlight></codeline>
+</programlisting></para></listitem><listitem><para>aes_192:<programlisting><codeline><highlight class="normal">AES-192<sp/>[key<sp/>=<sp/>192bits,<sp/>AES<sp/>rounds<sp/>=<sp/>12]<sp/></highlight></codeline>
+</programlisting></para></listitem><listitem><para>aes_256:<programlisting><codeline><highlight class="normal">AES-256<sp/>[key<sp/>=<sp/>256bits,<sp/>AES<sp/>rounds<sp/>=<sp/>14]<sp/></highlight></codeline>
+</programlisting></para></listitem></itemizedlist>
+</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>inpt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The data to decrypt using AES and CBC </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>outt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a <computeroutput>malloc</computeroutput>ed location where the decrypted data will be written </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ivec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The IV (Initial Vector) to be used for CBC decryption </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>clength</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The length of the input cipher [in bytes] which is also the output (message) length </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>epoch_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key (passed by the user) that will be used for the key expansion to make the key schedule to decrypt </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keymode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The AES mode (also defines the key length and number of rounds) [see the possible values above]</para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="see"><para><ulink url="https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Cipher_Block_Chaining_(CBC)">https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Cipher_Block_Chaining_(CBC)</ulink> </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESni.h" line="165" column="1" bodyfile="src/AESni.c" bodystart="273" bodyend="298"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="user-defined">
+      <header>CTR Core</header>
+      <description><para>The functions related to encrypting and decrypting using the CounTeR approach. </para></description>
+      <memberdef kind="function" id="AESni_8h_1ab3a399efd7b9d9f200fe14b5ce52cf85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void aes_ctr_ni</definition>
+        <argsstring>(uint8_t *inpt, uint8_t *outt, uint8_t *ivec, unsigned long mlength, uint8_t *epoch_key, AESKeyMode keymode)</argsstring>
+        <name>aes_ctr_ni</name>
+        <param>
+          <type>uint8_t *</type>
+          <declname>inpt</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>outt</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>ivec</declname>
+        </param>
+        <param>
+          <type>unsigned long</type>
+          <declname>mlength</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>epoch_key</declname>
+        </param>
+        <param>
+          <type><ref refid="AESarm_8h_1a42b3206764c080364694538d57a0c659" kindref="member">AESKeyMode</ref></type>
+          <declname>keymode</declname>
+        </param>
+        <briefdescription>
+<para>Encrypts or Decrypts the data using Counter Mode (CTR) AES implemented directly on the Intel Chip. </para>        </briefdescription>
+        <detaileddescription>
+<para>Encrypts or Decrypts the passed input data using CTR. The function is implemented using intel Intrinsics for greater performance.</para><para><simplesect kind="note"><para>Due to the nature of CTR, encryption and decryption are the same so that does not have to be specified. If a non encrypted message is passed it will be encrypted, if an encrypted message is passed it will be decrypted </para></simplesect>
+<simplesect kind="warning"><para>No checks are run to ensure input, ivec, or epoch key are the correct lengths</para></simplesect>
+Possible values for the key mode and what it specifies:<itemizedlist>
+<listitem><para>aes_128:<programlisting><codeline><highlight class="normal">AES-128<sp/>[key<sp/>=<sp/>128bits,<sp/>AES<sp/>rounds<sp/>=<sp/>10]<sp/></highlight></codeline>
+</programlisting></para></listitem><listitem><para>aes_192:<programlisting><codeline><highlight class="normal">AES-192<sp/>[key<sp/>=<sp/>192bits,<sp/>AES<sp/>rounds<sp/>=<sp/>12]<sp/></highlight></codeline>
+</programlisting></para></listitem><listitem><para>aes_256:<programlisting><codeline><highlight class="normal">AES-256<sp/>[key<sp/>=<sp/>256bits,<sp/>AES<sp/>rounds<sp/>=<sp/>14]<sp/></highlight></codeline>
+</programlisting></para></listitem></itemizedlist>
+</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>inpt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The data to decrypt/decrypt using AES and CBC </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>outt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a <computeroutput>malloc</computeroutput>ed location where the decrypted/encrypted data will be written </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ivec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The IV (Initial Vector) to be used during the CTR process </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mlength</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The length of the input [in bytes] which is also the output length </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>epoch_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key (passed by the user) that will be used for the key expansion to make the key schedule to encrypt/decrypt </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keymode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The AES mode (also defines the key length and number of rounds) [see the possible values above]</para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="see"><para><ulink url="https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Counter_(CTR)">https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Counter_(CTR)</ulink> </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESni.h" line="197" column="1" bodyfile="src/AESni.c" bodystart="301" bodyend="328"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>The header file for the AES encryption (basic as well as CBC and CTR mode) implemented with Intel Intrinsics</para><para>08-23-2018 <simplesect kind="version"><para>0.0.1 </para></simplesect>
+<simplesect kind="author"><para>Jan Niegsch </para></simplesect>
+</para>    </detaileddescription>
+    <location file="src/AESni.h"/>
+  </compounddef>
+</doxygen>

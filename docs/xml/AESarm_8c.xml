@@ -1,0 +1,254 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="AESarm_8c" kind="file" language="C++">
+    <compoundname>AESarm.c</compoundname>
+    <includes refid="AESarm_8h" local="yes">AESarm.h</includes>
+    <incdepgraph>
+      <node id="6">
+        <label>arm_neon.h</label>
+      </node>
+      <node id="4">
+        <label>stdint.h</label>
+      </node>
+      <node id="2">
+        <label>stdlib.h</label>
+      </node>
+      <node id="5">
+        <label>AESCore.h</label>
+        <link refid="AESCore_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="0">
+        <label>src/AESarm.c</label>
+        <link refid="AESarm_8c"/>
+        <childnode refid="1" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AESarm.h</label>
+        <link refid="AESarm_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>stdio.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="AESarm_8c_1abdf98fa78e15fbbaafbfbf50e73446aa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void initializer</definition>
+        <argsstring>(void)</argsstring>
+        <name>initializer</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESarm.c" line="26" column="1" bodyfile="src/AESarm.c" bodystart="26" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="AESarm_8c_1a4c378473ae20532605ee2c7f11951d07" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void finalizer</definition>
+        <argsstring>(void)</argsstring>
+        <name>finalizer</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESarm.c" line="32" column="1" bodyfile="src/AESarm.c" bodystart="32" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="AESarm_8c_1a0bd49e479a1731b153c02ea3e6aa5692" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32x4_t</type>
+        <definition>static uint32x4_t aes_128_expAssist</definition>
+        <argsstring>(uint32x4_t prev, uint32_t rcon)</argsstring>
+        <name>aes_128_expAssist</name>
+        <param>
+          <type>uint32x4_t</type>
+          <declname>prev</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>rcon</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESarm.c" line="37" column="1" bodyfile="src/AESarm.c" bodystart="37" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="AESarm_8c_1ad4136fcd5544438ff20189fb4433ea91" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void key_expansion_128</definition>
+        <argsstring>(uint32x4_t *schedule[11], uint8x16_t encKey)</argsstring>
+        <name>key_expansion_128</name>
+        <param>
+          <type>uint32x4_t *</type>
+          <declname>schedule</declname>
+          <array>[11]</array>
+        </param>
+        <param>
+          <type>uint8x16_t</type>
+          <declname>encKey</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESarm.c" line="47" column="1" bodyfile="src/AESarm.c" bodystart="47" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="AESarm_8c_1a753724ca649c4d0e2f6d04a5056e100d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32x4_t [3]</type>
+        <definition>static uint32x4_t [3] aes_192_expAssist</definition>
+        <argsstring>(uint32x4_t prev, uint32x2_t *temp, uint32_t rcon1, uint32_t rcon2)</argsstring>
+        <name>aes_192_expAssist</name>
+        <param>
+          <type>uint32x4_t</type>
+          <declname>prev</declname>
+        </param>
+        <param>
+          <type>uint32x2_t *</type>
+          <declname>temp</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>rcon1</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>rcon2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESarm.c" line="62" column="1" bodyfile="src/AESarm.c" bodystart="62" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="AESarm_8c_1a51da14fea4885f176ad1776067cba982" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void key_expansion_192</definition>
+        <argsstring>(uint32x4_t *schedule[13], uint8x16_t encKey)</argsstring>
+        <name>key_expansion_192</name>
+        <param>
+          <type>uint32x4_t *</type>
+          <declname>schedule</declname>
+          <array>[13]</array>
+        </param>
+        <param>
+          <type>uint8x16_t</type>
+          <declname>encKey</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESarm.c" line="86" column="1" bodyfile="src/AESarm.c" bodystart="86" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="AESarm_8c_1a9ca803849fb994dd625de374223ec411" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32x4_t [2]</type>
+        <definition>static uint32x4_t [2] aes_256_expAssist</definition>
+        <argsstring>(uint32x4_t prev1, uint32x4_t prev2, uint32_t rcon)</argsstring>
+        <name>aes_256_expAssist</name>
+        <param>
+          <type>uint32x4_t</type>
+          <declname>prev1</declname>
+        </param>
+        <param>
+          <type>uint32x4_t</type>
+          <declname>prev2</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>rcon</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESarm.c" line="111" column="1" bodyfile="src/AESarm.c" bodystart="111" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="AESarm_8c_1aaae3d94ca5e3f255f5c20ce0d4a521f7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void key_expansion_256</definition>
+        <argsstring>(uint32x4_t *schedule[15], uint8x16_t encKey)</argsstring>
+        <name>key_expansion_256</name>
+        <param>
+          <type>uint32x4_t *</type>
+          <declname>schedule</declname>
+          <array>[15]</array>
+        </param>
+        <param>
+          <type>uint8x16_t</type>
+          <declname>encKey</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESarm.c" line="127" column="1" bodyfile="src/AESarm.c" bodystart="127" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="AESarm_8c_1a5cc577174e8faa1a6ee73a1b663014ad" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32x4_t *</type>
+        <definition>static uint32x4_t* load_key_expansion</definition>
+        <argsstring>(uint8_t *key, AESKeyMode keymode)</argsstring>
+        <name>load_key_expansion</name>
+        <param>
+          <type>uint8_t *</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="AESarm_8h_1a42b3206764c080364694538d57a0c659" kindref="member">AESKeyMode</ref></type>
+          <declname>keymode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESarm.c" line="155" column="1" bodyfile="src/AESarm.c" bodystart="155" bodyend="174"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>The source file for the AES encryption (basic as well as CBC and CTR mode) implemented with Intel Intrinsics</para><para>08-23-2018  -fvisibility=hidden -march=armv8-a+crypto <simplesect kind="version"><para>0.0.1 </para></simplesect>
+<simplesect kind="author"><para>Jan Niegsch </para></simplesect>
+</para>    </detaileddescription>
+    <location file="src/AESarm.c"/>
+  </compounddef>
+</doxygen>

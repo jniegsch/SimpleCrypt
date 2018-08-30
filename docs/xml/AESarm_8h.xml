@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="AESarm_8h" kind="file" language="C++">
+    <compoundname>AESarm.h</compoundname>
+    <includes local="no">stdlib.h</includes>
+    <includes local="no">stdio.h</includes>
+    <includes local="no">stdint.h</includes>
+    <includes refid="AESCore_8h" local="yes">AESCore.h</includes>
+    <includes local="no">arm_neon.h</includes>
+    <includedby refid="AESarm_8c" local="yes">src/AESarm.c</includedby>
+    <incdepgraph>
+      <node id="13">
+        <label>arm_neon.h</label>
+      </node>
+      <node id="11">
+        <label>stdint.h</label>
+      </node>
+      <node id="9">
+        <label>stdlib.h</label>
+      </node>
+      <node id="12">
+        <label>AESCore.h</label>
+        <link refid="AESCore_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>src/AESarm.h</label>
+        <link refid="AESarm_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>stdio.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="15">
+        <label>src/AESarm.c</label>
+        <link refid="AESarm_8c"/>
+      </node>
+      <node id="14">
+        <label>src/AESarm.h</label>
+        <link refid="AESarm_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+      <sectiondef kind="user-defined">
+      <header>Key Management Internals</header>
+      <description><para>Definitions pertaining to the Key Management (expansion) </para></description>
+      <memberdef kind="enum" id="AESarm_8h_1a42b3206764c080364694538d57a0c659" prot="public" static="no" strong="no">
+        <type></type>
+        <name>AESKeyMode</name>
+        <enumvalue id="AESarm_8h_1a42b3206764c080364694538d57a0c659a15694b73ba8b45b9ff0abf3023a6384c" prot="public">
+          <name>aes_128</name>
+          <initializer>= 10</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="AESarm_8h_1a42b3206764c080364694538d57a0c659abfa8069615d4eb6201a7934f28ebbac3" prot="public">
+          <name>aes_192</name>
+          <initializer>= 12</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="AESarm_8h_1a42b3206764c080364694538d57a0c659a8246d89903c2f3c3d42588639f1becd4" prot="public">
+          <name>aes_256</name>
+          <initializer>= 14</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="AESni_8h_1a42b3206764c080364694538d57a0c659a15694b73ba8b45b9ff0abf3023a6384c" prot="public">
+          <name>aes_128</name>
+          <initializer>= 10</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="AESni_8h_1a42b3206764c080364694538d57a0c659abfa8069615d4eb6201a7934f28ebbac3" prot="public">
+          <name>aes_192</name>
+          <initializer>= 12</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="AESni_8h_1a42b3206764c080364694538d57a0c659a8246d89903c2f3c3d42588639f1becd4" prot="public">
+          <name>aes_256</name>
+          <initializer>= 14</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>An enum setting the key mode. </para>        </briefdescription>
+        <detaileddescription>
+<para>Key Management Internals</para><para><linebreak/>
+</para><para>This enum allows to set which key mode for AES is being uesd: either 128 bits, 192 bits, or 256 bits. By setting this also the rounds of AES are defined</para><para>Possible values for the key mode and what it specifies:<itemizedlist>
+<listitem><para>aes_128:<programlisting><codeline><highlight class="normal">AES-128<sp/>[key<sp/>=<sp/>128bits,<sp/>AES<sp/>rounds<sp/>=<sp/>10]<sp/></highlight></codeline>
+</programlisting></para></listitem><listitem><para>aes_192:<programlisting><codeline><highlight class="normal">AES-192<sp/>[key<sp/>=<sp/>192bits,<sp/>AES<sp/>rounds<sp/>=<sp/>12]<sp/></highlight></codeline>
+</programlisting></para></listitem><listitem><para>aes_256:<programlisting><codeline><highlight class="normal">AES-256<sp/>[key<sp/>=<sp/>256bits,<sp/>AES<sp/>rounds<sp/>=<sp/>14]<sp/></highlight></codeline>
+</programlisting></para></listitem></itemizedlist>
+</para><para>This enum allows to set which key mode for AES is being uesd: either 128 bits, 192 bits, or 256 bits. By setting this also the rounds of AES are defined</para><para>Possible values for the key mode and what it specifies:<itemizedlist>
+<listitem><para>aes_128:<programlisting><codeline><highlight class="normal">AES-128<sp/>[key<sp/>=<sp/>128bits,<sp/>AES<sp/>rounds<sp/>=<sp/>10]<sp/></highlight></codeline>
+</programlisting></para></listitem><listitem><para>aes_192:<programlisting><codeline><highlight class="normal">AES-192<sp/>[key<sp/>=<sp/>192bits,<sp/>AES<sp/>rounds<sp/>=<sp/>12]<sp/></highlight></codeline>
+</programlisting></para></listitem><listitem><para>aes_256:<programlisting><codeline><highlight class="normal">AES-256<sp/>[key<sp/>=<sp/>256bits,<sp/>AES<sp/>rounds<sp/>=<sp/>14]<sp/></highlight></codeline>
+</programlisting> </para></listitem></itemizedlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/AESarm.h" line="66" column="1" bodyfile="src/AESarm.h" bodystart="66" bodyend="70"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>The header file for the AES encryption (basic as well as CBC and CTR mode) implemented with ARM Intrinsics</para><para>08-24-2018 <simplesect kind="version"><para>0.0.1 </para></simplesect>
+<simplesect kind="author"><para>Jan Niegsch </para></simplesect>
+</para>    </detaileddescription>
+    <location file="src/AESarm.h"/>
+  </compounddef>
+</doxygen>
