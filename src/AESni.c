@@ -1,6 +1,6 @@
 //
 //  AESni.c
-//  IIAES
+//  SimpleCrypt
 //
 //  Created by Developer on 23.08.18.
 //  Copyright © 2018 jniegsch. All rights reserved.

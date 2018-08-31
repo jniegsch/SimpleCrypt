@@ -1,6 +1,6 @@
 //
 //  AESarm.h
-//  
+//  SimpleCrypt
 //
 //  Created by Developer on 24.08.18.
 //
