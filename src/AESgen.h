@@ -30,6 +30,14 @@ typedef struct uint8x16_t {
   uint8_t _[16];
 } uint8x16;
 
+typedef struct uint8x24_t {
+  uint8_t _[24];
+} uint8x24;
+
+typedef struct uint8x32_t {
+  uint8_t _[32];
+} uint8x32;
+
 typedef struct uint32x2_t {
   uint32_t _[2];
 } uint32x2;
