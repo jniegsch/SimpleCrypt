@@ -1,6 +1,6 @@
 //
 //  AESarm.c
-//  
+//  SimpleCrypt
 //
 //  Created by Developer on 24.08.18.
 //
@@ -44,21 +44,21 @@ static inline uint32x4_t aes_128_expAssist(uint32x4_t prev, uint32_t rcon) {
 	round[2] = sub_word(rot_word(round[1])) ^ rcon ^ prv[2];
 	round[3] = sub_word(rot_word(round[2])) ^ rcon ^ prv[3];
 
-	return veorq_u32(vld1q_u3(round), prev);
+	return vld1q_u3(round);
 }
 
 static void key_expansion_128(uint32x4_t * schedule[11], uint8x16_t encKey) {
-	schedule[ 0] = vld1q_u32(encKey);
-	schedule[ 1] = aes_128_expAssist(schedule[0], 0x01);
-	schedule[ 2] = aes_128_expAssist(schedule[1], 0x02);
-	schedule[ 3] = aes_128_expAssist(schedule[2], 0x04);
-	schedule[ 4] = aes_128_expAssist(schedule[3], 0x08);
-	schedule[ 5] = aes_128_expAssist(schedule[4], 0x10);
-	schedule[ 6] = aes_128_expAssist(schedule[5], 0x20);
-	schedule[ 7] = aes_128_expAssist(schedule[6], 0x40);
-	schedule[ 8] = aes_128_expAssist(schedule[7], 0x80);
-	schedule[ 9] = aes_128_expAssist(schedule[8], 0x1b);
-	schedule[10] = aes_128_expAssist(schedule[9], 0x36);
+	(*schedule)[ 0] = vld1q_u32(encKey);
+	(*schedule)[ 1] = aes_128_expAssist((*schedule)[0], 0x01);
+	(*schedule)[ 2] = aes_128_expAssist((*schedule)[1], 0x02);
+	(*schedule)[ 3] = aes_128_expAssist((*schedule)[2], 0x04);
+	(*schedule)[ 4] = aes_128_expAssist((*schedule)[3], 0x08);
+	(*schedule)[ 5] = aes_128_expAssist((*schedule)[4], 0x10);
+	(*schedule)[ 6] = aes_128_expAssist((*schedule)[5], 0x20);
+	(*schedule)[ 7] = aes_128_expAssist((*schedule)[6], 0x40);
+	(*schedule)[ 8] = aes_128_expAssist((*schedule)[7], 0x80);
+	(*schedule)[ 9] = aes_128_expAssist((*schedule)[8], 0x1b);
+	(*schedule)[10] = aes_128_expAssist((*schedule)[9], 0x36);
 }
 
 #pragma mark - Key Management 192
@@ -95,24 +95,24 @@ static void key_expansion_192(uint32x4_t * schedule[13], uint8x16_t encKey) {
 	uint32x2_t temp;
 	uint32x4_t * trippleRounds = NULL;
 
-	schedule[0]    = vld1q_u32(encKey);
+	(*schedule)[0]    = vld1q_u32(encKey);
 	temp           = vld1_u32(encKey + 16);
-	trippleRounds  = aes_192_expAssist(schedule[ 0], &temp, 0x01, 0x02);
-	schedule[ 1]   = trippleRounds[0];
-	schedule[ 2]   = trippleRounds[1];
-	schedule[ 3]   = trippleRounds[2];
-	trippleRounds  = aes_192_expAssist(schedule[ 0], &temp, 0x04, 0x08);
-	schedule[ 4]   = trippleRounds[0];
-	schedule[ 5]   = trippleRounds[1];
-	schedule[ 6]   = trippleRounds[2];
-	trippleRounds  = aes_192_expAssist(schedule[ 0], &temp, 0x10, 0x20);
-	schedule[ 7]   = trippleRounds[0];
-	schedule[ 8]   = trippleRounds[1];
-	schedule[ 9]   = trippleRounds[2];
-	trippleRounds  = aes_192_expAssist(schedule[ 0], &temp, 0x40, 0x80);
-	schedule[10]   = trippleRounds[0];
-	schedule[11]   = trippleRounds[1];
-	schedule[12]   = trippleRounds[2];
+	trippleRounds  = aes_192_expAssist((*schedule)[0], &temp, 0x01, 0x02);
+	(*schedule)[ 1]   = trippleRounds[0];
+	(*schedule)[ 2]   = trippleRounds[1];
+	(*schedule)[ 3]   = trippleRounds[2];
+	trippleRounds  = aes_192_expAssist((*schedule)[3], &temp, 0x04, 0x08);
+	(*schedule)[ 4]   = trippleRounds[0];
+	(*schedule)[ 5]   = trippleRounds[1];
+	(*schedule)[ 6]   = trippleRounds[2];
+	trippleRounds  = aes_192_expAssist((*schedule)[6], &temp, 0x10, 0x20);
+	(*schedule)[ 7]   = trippleRounds[0];
+	(*schedule)[ 8]   = trippleRounds[1];
+	(*schedule)[ 9]   = trippleRounds[2];
+	trippleRounds  = aes_192_expAssist((*schedule)[9], &temp, 0x40, 0x80);
+	(*schedule)[10]   = trippleRounds[0];
+	(*schedule)[11]   = trippleRounds[1];
+	(*schedule)[12]   = trippleRounds[2];
 }
 
 #pragma mark - Key Management 256
@@ -140,28 +140,28 @@ static inline uint32x4_t * aes_256_expAssist(uint32x4_t prev1, uint32x4_t prev2,
 static void key_expansion_256(uint32x4_t * schedule[15], uint8x16_t encKey) {
 	uint32x4_t * doubleRound = NULL;
 
-	schedule[ 0] = vld1q_u32(encKey);
-	schedule[ 1] = vld1q_u32(encKey + 16);
-	doubleRound  = aes_256_expAssist(schedule[ 0], schedule[ 1], 0x01);
-	schedule[ 2] = doubleRound[0];
-	schedule[ 3] = doubleRound[1];
-	doubleRound  = aes_256_expAssist(schedule[ 2], schedule[ 3], 0x02);
-	schedule[ 4] = doubleRound[0];
-	schedule[ 5] = doubleRound[1];
-	doubleRound  = aes_256_expAssist(schedule[ 4], schedule[ 5], 0x04);
-	schedule[ 6] = doubleRound[0];
-	schedule[ 7] = doubleRound[1];
-	doubleRound  = aes_256_expAssist(schedule[ 6], schedule[ 7], 0x08);
-	schedule[ 8] = doubleRound[0];
-	schedule[ 9] = doubleRound[1];
-	doubleRound  = aes_256_expAssist(schedule[ 8], schedule[ 9], 0x10);
-	schedule[10] = doubleRound[0];
-	schedule[11] = doubleRound[1];
-	doubleRound  = aes_256_expAssist(schedule[10], schedule[11], 0x20);
-	schedule[12] = doubleRound[0];
-	schedule[13] = doubleRound[1];
-	doubleRound  = aes_256_expAssist(schedule[12], schedule[13], 0x40);
-	schedule[14] = doubleRound[0];
+	(*schedule)[ 0] = vld1q_u32(encKey);
+	(*schedule)[ 1] = vld1q_u32(encKey + 16);
+	doubleRound     = aes_256_expAssist((*schedule)[ 0], (*schedule)[ 1], 0x01);
+	(*schedule)[ 2] = doubleRound[0];
+	(*schedule)[ 3] = doubleRound[1];
+	doubleRound     = aes_256_expAssist((*schedule)[ 2], (*schedule)[ 3], 0x02);
+	(*schedule)[ 4] = doubleRound[0];
+	(*schedule)[ 5] = doubleRound[1];
+	doubleRound     = aes_256_expAssist((*schedule)[ 4], (*schedule)[ 5], 0x04);
+	(*schedule)[ 6] = doubleRound[0];
+	(*schedule)[ 7] = doubleRound[1];
+	doubleRound     = aes_256_expAssist((*schedule)[ 6], (*schedule)[ 7], 0x08);
+	(*schedule)[ 8] = doubleRound[0];
+	(*schedule)[ 9] = doubleRound[1];
+	doubleRound     = aes_256_expAssist((*schedule)[ 8], (*schedule)[ 9], 0x10);
+	(*schedule)[10] = doubleRound[0];
+	(*schedule)[11] = doubleRound[1];
+	doubleRound     = aes_256_expAssist((*schedule)[10], (*schedule)[11], 0x20);
+	(*schedule)[12] = doubleRound[0];
+	(*schedule)[13] = doubleRound[1];
+	doubleRound     = aes_256_expAssist((*schedule)[12], (*schedule)[13], 0x40);
+	(*schedule)[14] = doubleRound[0];
 }
 
 #pragma mark - Key Management Core
