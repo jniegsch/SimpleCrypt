@@ -168,12 +168,12 @@ static void __gen_key_expansion_192(uint32x4 * schedule[13], uint8x24 encKey) {
 }
 
 #pragma mark - Key Management: 256
-static inline void __gen_aes_256_expAssist(uint32x4 prev1, uint32x4 prev2, uint32x4 next1, uint32x4 next2, uint32_t rcon) {
+static inline void __gen_aes_256_expAssist(uint32x4 prev1, uint32x4 prev2, uint32x4 next1, uint32x4 next2, uint32_t rcon, int half) {
   next1._[0] = sub_word(rot_word(prev2._[3])) ^ rcon ^ prev1._[0];
   next1._[1] = sub_word(rot_word(next1._[0])) ^ rcon ^ prev1._[1];
   next1._[2] = sub_word(rot_word(next1._[1])) ^ rcon ^ prev1._[2];
   next1._[3] = sub_word(rot_word(next1._[2])) ^ rcon ^ prev1._[3];
-
+  if (half) { return; }
   next2._[0] = sub_word(rot_word(next1._[3])) ^ rcon ^ prev2._[0];
   next2._[1] = sub_word(rot_word(next2._[0])) ^ rcon ^ prev2._[1];
   next2._[2] = sub_word(rot_word(next2._[1])) ^ rcon ^ prev2._[2];
@@ -184,11 +184,11 @@ static void __gen_key_expansion_256(uint32x4 * schedule[15], uint8x32 encKey) {
   uint32x4 dummy;
   
   u8x32_u32_4_split2(&(*schedule)[0], &(*schedule)[1], encKey);
-  __gen_aes_256_expAssist((*schedule)[ 0], (*schedule)[ 1], (*schedule)[ 2], (*schedule)[ 3], 0x01);
-  __gen_aes_256_expAssist((*schedule)[ 2], (*schedule)[ 3], (*schedule)[ 4], (*schedule)[ 5], 0x02);
-  __gen_aes_256_expAssist((*schedule)[ 4], (*schedule)[ 5], (*schedule)[ 6], (*schedule)[ 7], 0x04);
-  __gen_aes_256_expAssist((*schedule)[ 6], (*schedule)[ 7], (*schedule)[ 8], (*schedule)[ 9], 0x08);
-  __gen_aes_256_expAssist((*schedule)[ 8], (*schedule)[ 9], (*schedule)[10], (*schedule)[11], 0x10);
-  __gen_aes_256_expAssist((*schedule)[10], (*schedule)[11], (*schedule)[12], (*schedule)[13], 0x20);
-  __gen_aes_256_expAssist((*schedule)[12], (*schedule)[12], (*schedule)[14],           dummy, 0x40);
+  __gen_aes_256_expAssist((*schedule)[ 0], (*schedule)[ 1], (*schedule)[ 2], (*schedule)[ 3], 0x01, 0);
+  __gen_aes_256_expAssist((*schedule)[ 2], (*schedule)[ 3], (*schedule)[ 4], (*schedule)[ 5], 0x02, 0);
+  __gen_aes_256_expAssist((*schedule)[ 4], (*schedule)[ 5], (*schedule)[ 6], (*schedule)[ 7], 0x04, 0);
+  __gen_aes_256_expAssist((*schedule)[ 6], (*schedule)[ 7], (*schedule)[ 8], (*schedule)[ 9], 0x08, 0);
+  __gen_aes_256_expAssist((*schedule)[ 8], (*schedule)[ 9], (*schedule)[10], (*schedule)[11], 0x10, 0);
+  __gen_aes_256_expAssist((*schedule)[10], (*schedule)[11], (*schedule)[12], (*schedule)[13], 0x20, 0);
+  __gen_aes_256_expAssist((*schedule)[12], (*schedule)[12], (*schedule)[14],           dummy, 0x40, 1);
 }
