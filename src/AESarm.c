@@ -35,13 +35,16 @@ static void finalizer(void) {
 
 #pragma mark - Key Management 128
 static inline uint32x4_t aes_128_expAssist(uint32x4_t prev, uint32_t rcon) {
-	uint32x4_t round;
-	round[0] = sub_word(rot_word( prev[3])) ^ rcon ^ prev[0];
-	round[1] = sub_word(rot_word(round[0])) ^ rcon ^ prev[1];
-	round[2] = sub_word(rot_word(round[1])) ^ rcon ^ prev[2];
-	round[3] = sub_word(rot_word(round[2])) ^ rcon ^ prev[3];
+	uint32_t round[4], prv[4];
+	// load neon vector type into array
+	vst1q_32(prv, prev);
 
-	return veorq_u32(round, prev);
+	round[0] = sub_word(rot_word(  prv[3])) ^ rcon ^ prv[0];
+	round[1] = sub_word(rot_word(round[0])) ^ rcon ^ prv[1];
+	round[2] = sub_word(rot_word(round[1])) ^ rcon ^ prv[2];
+	round[3] = sub_word(rot_word(round[2])) ^ rcon ^ prv[3];
+
+	return veorq_u32(vld1q_u3(round), prev);
 }
 
 static void key_expansion_128(uint32x4_t * schedule[11], uint8x16_t encKey) {
@@ -59,16 +62,19 @@ static void key_expansion_128(uint32x4_t * schedule[11], uint8x16_t encKey) {
 }
 
 #pragma mark - Key Management 192
-static inline uint32x4_t[3] aes_192_expAssist(uint32x4_t prev, uint32x2_t * temp, uint32_t rcon1, uint32_t rcon2) {
-	uint32x4_t round1, round2, round3;
-	 
-	round1[ 0] = (*temp)[0];
-	round1[ 1] = (*temp)[1];
-	round1[ 2] = sub_word(rot_word( round1[1])) ^ rcon1 ^   prev[0];
-	round1[ 3] = sub_word(rot_word( round1[2])) ^ rcon1 ^   prev[1];
+static inline uint32x4_t * aes_192_expAssist(uint32x4_t prev, uint32x2_t * temp, uint32_t rcon1, uint32_t rcon2) {
+	uint32_t round1[4], round2[4], round3[4], tmp[2], prv[4];
 
-	round2[ 0] = sub_word(rot_word( round1[3])) ^ rcon1 ^   prev[2];
-	round2[ 1] = sub_word(rot_word( round2[0])) ^ rcon1 ^   prev[3];
+	vst1_u32(tmp, *temp);
+	vst1q_u32(prv, prev);
+	 
+	round1[ 0] = tmp[0];
+	round1[ 1] = tmp[1];
+	round1[ 2] = sub_word(rot_word( round1[1])) ^ rcon1 ^    prv[0];
+	round1[ 3] = sub_word(rot_word( round1[2])) ^ rcon1 ^    prv[1];
+
+	round2[ 0] = sub_word(rot_word( round1[3])) ^ rcon1 ^    prv[2];
+	round2[ 1] = sub_word(rot_word( round2[0])) ^ rcon1 ^    prv[3];
 	round2[ 2] = sub_word(rot_word( round2[1])) ^ rcon1 ^ round1[0];
 	round2[ 3] = sub_word(rot_word( round2[2])) ^ rcon1 ^ round1[1];
 
@@ -77,15 +83,17 @@ static inline uint32x4_t[3] aes_192_expAssist(uint32x4_t prev, uint32x2_t * temp
 	round3[ 2] = sub_word(rot_word( round3[1])) ^ rcon2 ^ round2[0];
 	round3[ 3] = sub_word(rot_word( round3[2])) ^ rcon2 ^ round2[1];
 	
-	(*temp)[0] = sub_word(rot_word( round3[3])) ^ rcon2 ^ round2[2];
-	(*temp)[1] = sub_word(rot_word((*temp)[0])) ^ rcon2 ^ round2[3];
+	    tmp[0] = sub_word(rot_word( round3[3])) ^ rcon2 ^ round2[2];
+	    tmp[1] = sub_word(rot_word(    tmp[0])) ^ rcon2 ^ round2[3];
 
-	return {round1, round2, round3};
+	uint32x4_t expansion[3] = {vld1q_u3(round1), vld1q_u3(round2), vld1q_u3(round3)};
+
+	return expansion;
 }
 
 static void key_expansion_192(uint32x4_t * schedule[13], uint8x16_t encKey) {
 	uint32x2_t temp;
-	uint32x4_t trippleRounds[3];
+	uint32x4_t * trippleRounds = NULL;
 
 	schedule[0]    = vld1q_u32(encKey);
 	temp           = vld1_u32(encKey + 16);
@@ -108,24 +116,29 @@ static void key_expansion_192(uint32x4_t * schedule[13], uint8x16_t encKey) {
 }
 
 #pragma mark - Key Management 256
-static inline uint32x4_t[2] aes_256_expAssist(uint32x4_t prev1, uint32x4_t prev2, uint32_t rcon) {
-	uint32x4_t round1, round2;
+static inline uint32x4_t * aes_256_expAssist(uint32x4_t prev1, uint32x4_t prev2, uint32_t rcon) {
+	uint32_t round1[4], round2[4], prv1[4], prv2[4];
 
-	round1[0] = sub_word(rot_word( prev2[3])) ^ rcon ^ prev1[0];
-	round1[1] = sub_word(rot_word(round1[0])) ^ rcon ^ prev1[1];
-	round1[2] = sub_word(rot_word(round1[3])) ^ rcon ^ prev1[2];
-	round1[3] = sub_word(rot_word(round1[3])) ^ rcon ^ prev1[3];
+	vst1q_u32(prv1, prev1);
+	vst1q_u32(prv2, prev2);
 
-	round2[0] = sub_word(rot_word(round1[3])) ^ rcon ^ prev2[0];
-	round2[1] = sub_word(rot_word(round2[3])) ^ rcon ^ prev2[1];
-	round2[2] = sub_word(rot_word(round2[3])) ^ rcon ^ prev2[2];
-	round2[3] = sub_word(rot_word(round2[3])) ^ rcon ^ prev2[3];
+	round1[0] = sub_word(rot_word(  prv2[3])) ^ rcon ^ prv1[0];
+	round1[1] = sub_word(rot_word(round1[0])) ^ rcon ^ prv1[1];
+	round1[2] = sub_word(rot_word(round1[3])) ^ rcon ^ prv1[2];
+	round1[3] = sub_word(rot_word(round1[3])) ^ rcon ^ prv1[3];
 
-	return {round1, round2};
+	round2[0] = sub_word(rot_word(round1[3])) ^ rcon ^ prv2[0];
+	round2[1] = sub_word(rot_word(round2[3])) ^ rcon ^ prv2[1];
+	round2[2] = sub_word(rot_word(round2[3])) ^ rcon ^ prv2[2];
+	round2[3] = sub_word(rot_word(round2[3])) ^ rcon ^ prv2[3];
+
+	uint32x4_t expansion[2] = {vld1q_u3(round1), vld1q_u3(round2)};
+
+	return expansion;
 }
 
 static void key_expansion_256(uint32x4_t * schedule[15], uint8x16_t encKey) {
-	uint32x4_t doubleRound[2];
+	uint32x4_t * doubleRound = NULL;
 
 	schedule[ 0] = vld1q_u32(encKey);
 	schedule[ 1] = vld1q_u32(encKey + 16);
@@ -153,7 +166,7 @@ static void key_expansion_256(uint32x4_t * schedule[15], uint8x16_t encKey) {
 
 #pragma mark - Key Management Core
 inline uint32x4_t * load_key_expansion(uint8_t * key, AESKeyMode keymode) {
-	uint32x4_t * keySchedule = malloc((keymode + 1) * sizeof(uint32x4));
+	uint32x4_t * keySchedule = malloc((keymode + 1) * sizeof(uint32x4_t));
 	switch(keymode) {
 		case aes_128:
 			key_expansion_128(&keySchedule, vld1q_u8(key));
@@ -175,7 +188,7 @@ inline uint32x4_t * load_key_expansion(uint8_t * key, AESKeyMode keymode) {
 
 #pragma mark - Encryption and Decryption Core
 inline void aes_arm_enc(uint8x16_t * data, uint8x16_t * keySchedule, AESKeyMode keymode) {
-	*data = veorq_u8(*data, keySchedule[ 0]));
+	*data = veorq_u8(*data, keySchedule[ 0]);
 	//			 mix cols		encrypt
 	*data = vaesmcq_u8(vaeseq_u8(*data, (uint8x16_t)keySchedule[1]));
 	*data = vaesmcq_u8(vaeseq_u8(*data, (uint8x16_t)keySchedule[2]));
@@ -276,8 +289,9 @@ void aes_ctr_arm(uint8_t * input, uint8_t * output, uint8_t * ivec, unsigned lon
 
 	uint32x4_t * keySched = load_key_expansion(epochKey, keymode);
 
-	iv = vld1q_u8((uint8x16_t *)ivec);
-	ONE = vld1q_u8(&(uint8x16_t) 1);
+	iv = vld1q_u8(ivec);
+	uint8_t one = 1;
+	ONE = vld1q_dup_u8(&one);
 
 	for (size_t i = 0; i < mlength; i++) {
 		if (i != 0) {
@@ -285,7 +299,7 @@ void aes_ctr_arm(uint8_t * input, uint8_t * output, uint8_t * ivec, unsigned lon
 		}
 		feedback = iv;
 		aes_arm_enc(&feedback, keySched, keymode);
-		data = veor_u8(feedback, vld1q_u8(&((uint8x16_t *)input)[i]));
-		vst1q_u8(&((uint8x16_t *)input)[i], data);
+		data = veor_u8(feedback, vld1q_u8(&(input[i * 16])));
+		vst1q_u8(&(input[i * 16]), data);
 	}
 }
