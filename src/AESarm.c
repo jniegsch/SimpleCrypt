@@ -124,13 +124,13 @@ static inline uint32x4_t * aes_256_expAssist(uint32x4_t prev1, uint32x4_t prev2,
 
 	round1[0] = sub_word(rot_word(  prv2[3])) ^ rcon ^ prv1[0];
 	round1[1] = sub_word(rot_word(round1[0])) ^ rcon ^ prv1[1];
-	round1[2] = sub_word(rot_word(round1[3])) ^ rcon ^ prv1[2];
-	round1[3] = sub_word(rot_word(round1[3])) ^ rcon ^ prv1[3];
+	round1[2] = sub_word(rot_word(round1[1])) ^ rcon ^ prv1[2];
+	round1[3] = sub_word(rot_word(round1[2])) ^ rcon ^ prv1[3];
 
 	round2[0] = sub_word(rot_word(round1[3])) ^ rcon ^ prv2[0];
-	round2[1] = sub_word(rot_word(round2[3])) ^ rcon ^ prv2[1];
-	round2[2] = sub_word(rot_word(round2[3])) ^ rcon ^ prv2[2];
-	round2[3] = sub_word(rot_word(round2[3])) ^ rcon ^ prv2[3];
+	round2[1] = sub_word(rot_word(round2[0])) ^ rcon ^ prv2[1];
+	round2[2] = sub_word(rot_word(round2[1])) ^ rcon ^ prv2[2];
+	round2[3] = sub_word(rot_word(round2[2])) ^ rcon ^ prv2[3];
 
 	uint32x4_t expansion[2] = {vld1q_u3(round1), vld1q_u3(round2)};
 
