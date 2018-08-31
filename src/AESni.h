@@ -23,6 +23,7 @@
 	#if __has_include(<stdio.h>)
 		#include <stdio.h>
 		#include <stdlib.h>
+		#include "AESCore.h"
 	#endif
 	# if __has_include(<wmmintrin.h>)
 		#include <wmmintrin.h>

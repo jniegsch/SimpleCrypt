@@ -74,10 +74,10 @@ static inline __m128i aes_128_expAssist(__m128i temp1, __m128i temp2) {
 	temp3 = _mm_slli_si128(temp1, 0x4);
 	temp1 = _mm_xor_si128(temp1, temp3);
 	temp3 = _mm_slli_si128(temp3, 0x4);
-	temp1 = _mm_xor_si128 (temp1, temp3);
-	temp3 = _mm_slli_si128 (temp3, 0x4);
-	temp1 = _mm_xor_si128 (temp1, temp3);
-	temp1 = _mm_xor_si128 (temp1, temp2);
+	temp1 = _mm_xor_si128(temp1, temp3);
+	temp3 = _mm_slli_si128(temp3, 0x4);
+	temp1 = _mm_xor_si128(temp1, temp3);
+	temp1 = _mm_xor_si128(temp1, temp2);
 	return temp1;
 }
 
@@ -187,7 +187,7 @@ static inline __m128i * load_key_expansion(uint8_t * key, AESKeyMode keymode) {
 			break;
 			
 		default:
-			fprintf(stderr, "[%s] Fatal Error: an invalid aes mode was passed. \n                     > Even though Rijndael supports several lengths of key bits, AES is defined to only support 128, 192, or 256 bits.\n", __FILE__);
+			fprintf(stderr, "[%s] %s", __FILE__, aes_mode_error());
 			exit(EXIT_FAILURE);
 			break;
 	}
@@ -243,12 +243,7 @@ inline void aes_ni_dec(__m128i * data, __m128i * key_schedule, AESKeyMode keymod
 }
 
 #pragma mark - CBC Core
-void aes_cbc_ni_enc(uint8_t * inpt,
-					uint8_t * outt,
-					uint8_t * ivec,
-					unsigned long mlength,
-					uint8_t * epoch_key,
-					AESKeyMode keymode) {
+void aes_cbc_ni_enc(uint8_t * inpt, uint8_t * outt, uint8_t * ivec, unsigned long mlength, uint8_t * epoch_key, AESKeyMode keymode) {
 	__m128i feedback, data;
 	
 	
@@ -270,12 +265,7 @@ void aes_cbc_ni_enc(uint8_t * inpt,
 	}
 }
 
-void aes_cbc_ni_dec(uint8_t * inpt,
-					uint8_t * outt,
-					uint8_t * ivec,
-					unsigned long clength,
-					uint8_t * epoch_key,
-					AESKeyMode keymode) {
+void aes_cbc_ni_dec(uint8_t * inpt, uint8_t * outt, uint8_t * ivec, unsigned long clength, uint8_t * epoch_key, AESKeyMode keymode) {
 	__m128i feedback, data, last_in;
 	
 	if (clength % 16) {
@@ -298,12 +288,7 @@ void aes_cbc_ni_dec(uint8_t * inpt,
 }
 
 #pragma mark - CTR Core
-void aes_ctr_ni(uint8_t * inpt,
-				uint8_t * outt,
-				uint8_t * ivec,
-				unsigned long mlength,
-				uint8_t * epoch_key,
-				AESKeyMode keymode) {
+void aes_ctr_ni(uint8_t * inpt, uint8_t * outt, uint8_t * ivec, unsigned long mlength, uint8_t * epoch_key, AESKeyMode keymode) {
 	__m128i iv, feedback, data, ONE;
 	
 	if (mlength % 16) {

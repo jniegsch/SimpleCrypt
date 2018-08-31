@@ -247,10 +247,10 @@ void aes_cbc_arm_enc(uint8_t * input, uint8_t * output, uint8_t * ivec, unsigned
 	uint32x4_t * keySched = load_key_expansion(epochKey, keymode);
 	feedback = vld1q_u8((uint8x16_t *)ivec);
 	for (size_t i = 0; i < mlength; i++) {
-		data = vld1q_u8(((uint8x16_t *)input)[i]);
+		data = vld1q_u8(&input[i * 16]);
 		feedback = veor_u8(data, feedback);
 		aes_arm_enc(&feedback, keySched, keymode);
-		vst1q_u8(&((uint8x16_t *)output)[i], feedback);
+		vst1q_u8(&output[i * 16], feedback);
 	}
 }
 
@@ -266,13 +266,13 @@ void aes_cbc_arm_dec(uint8_t * input, uint8_t * output, uint8_t * ivec, unsigned
 
 	// key exp
 	uint32x4_t * keySched = load_key_expansion(epochKey, keymode);
-	feedback = vld1q_u8((uint8x16_t *)ivec);
+	feedback = vld1q_u8(ivec);
 	for (size_t i = 0; i < mlength; i++) {
-		data = vld1q_u8(&((uint8x16_t *)input)[i]);
+		data = vld1q_u8(&input[i * 16]);
 		lastIn = data;
 		aes_arm_enc(&data, keySched, keymode);
 		data = veor_u8(data, feedback);
-		vst1q_u8(&((uint8x16_t *)output)[i], data);
+		vst1q_u8(&output[i * 16], data);
 		feedback = lastIn;
 	}
 }
