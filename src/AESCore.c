@@ -23,6 +23,9 @@
 #include "AESCore.h"
 
 #pragma mark - Internal Core
+const int i = 1;
+#define is_bigendian() ( (*(char*)&i) == 0 )
+
 __attribute__((constructor))
 static void initializer(void) {
 	printf("[%s] initialized\n", __FILE__);
@@ -97,4 +100,35 @@ extern inline uint32_t sub_word(uint32_t inp) {
 
 extern inline uint32_t rot_word(uint32_t inp) {
 	return (((inp & 0x00ffffff) <<  8) + ((inp & 0xff000000) >> 24));
+}
+
+#pragma mark - Encryption and Decryption Methods
+extern inline void sub_bytes(uint8_t * inp) {
+  inp[ 0] = sBox[inp[ 0]]; inp[ 1] = sBox[inp[ 1]]; inp[ 2] = sBox[inp[ 2]]; inp[ 3] = sBox[inp[ 3]];
+  inp[ 4] = sBox[inp[ 4]]; inp[ 5] = sBox[inp[ 5]]; inp[ 6] = sBox[inp[ 6]]; inp[ 7] = sBox[inp[ 7]];
+  inp[ 8] = sBox[inp[ 8]]; inp[ 9] = sBox[inp[ 9]]; inp[10] = sBox[inp[10]]; inp[11] = sBox[inp[11]];
+  inp[12] = sBox[inp[12]]; inp[13] = sBox[inp[13]]; inp[14] = sBox[inp[14]]; inp[15] = sBox[inp[15]];
+}
+
+extern inline void inv_sub_bytes(uint8_t * inp) {
+  inp[ 0] = sBoxInv[inp[ 0]]; inp[ 1] = sBoxInv[inp[ 1]]; inp[ 2] = sBoxInv[inp[ 2]]; inp[ 3] = sBoxInv[inp[ 3]];
+  inp[ 4] = sBoxInv[inp[ 4]]; inp[ 5] = sBoxInv[inp[ 5]]; inp[ 6] = sBoxInv[inp[ 6]]; inp[ 7] = sBoxInv[inp[ 7]];
+  inp[ 8] = sBoxInv[inp[ 8]]; inp[ 9] = sBoxInv[inp[ 9]]; inp[10] = sBoxInv[inp[10]]; inp[11] = sBoxInv[inp[11]];
+  inp[12] = sBoxInv[inp[12]]; inp[13] = sBoxInv[inp[13]]; inp[14] = sBoxInv[inp[14]]; inp[15] = sBoxInv[inp[15]];
+}
+
+extern inline void shift_rows(uint8_t * inp) {
+  // no change to first row
+  uint8_t temp[6] = {inp[4], inp[8], inp[9], inp[12], inp[13], inp[14]};
+  inp[ 4] = inp[ 5]; inp[ 5] = inp[ 6]; inp[ 6] = inp[ 7]; inp[ 7] = temp[0];
+  inp[ 8] = inp[10]; inp[ 9] = inp[11]; inp[10] = temp[1]; inp[11] = temp[2];
+  inp[12] = inp[15]; inp[13] = temp[3]; inp[14] = temp[4]; inp[15] = temp[5];
+}
+
+extern inline void mix_columns(uint8_t * inp) {
+  uint8_t * temp = inp;
+  inp[ 0] = (0x02 * temp[ 0]) ^ (0x03 * temp[ 4]) ^ temp[ 8] ^ temp[12]; inp[ 1] = (0x02 * temp[ 1]) ^ (0x03 * temp[ 5]) ^ temp[ 9] ^ temp[13]; inp[ 2] = (0x02 * temp[ 2]) ^ (0x03 * temp[ 6]) ^ temp[10] ^ temp[14]; inp[ 3] = (0x02 * temp[ 3]) ^ (0x03 * temp[ 7]) ^ temp[11] ^ temp[15];
+  inp[ 4] = temp[ 0] ^ (0x02 * temp[ 4]) ^ (0x03 * temp[ 8]) ^ temp[12]; inp[ 5] = temp[ 1] ^ (0x02 * temp[ 5]) ^ (0x03 * temp[ 9]) ^ temp[13]; inp[ 6] = temp[ 2] ^ (0x02 * temp[ 6]) ^ (0x03 * temp[10]) ^ temp[14]; inp[ 7] = temp[ 3] ^ (0x02 * temp[ 7]) ^ (0x03 * temp[11]) ^ temp[15];
+  inp[ 8] = temp[ 0] ^ temp[ 4] ^ (0x02 * temp[ 8]) ^ (0x03 * temp[12]); inp[ 9] = temp[ 1] ^ temp[ 5] ^ (0x02 * temp[ 9]) ^ (0x03 * temp[13]); inp[10] = temp[ 2] ^ temp[ 6] ^ (0x02 * temp[10]) ^ (0x03 * temp[14]); inp[11] = temp[ 3] ^ temp[ 7] ^ (0x02 * temp[11]) ^ (0x03 * temp[15]);
+  inp[12] = (0x03 * temp[ 0]) ^ temp[ 4] ^ temp[ 8] ^ (0x02 * temp[12]); inp[13] = (0x03 * temp[ 1]) ^ temp[ 5] ^ temp[ 9] ^ (0x02 * temp[13]); inp[14] = (0x03 * temp[ 2]) ^ temp[ 6] ^ temp[10] ^ (0x02 * temp[14]); inp[15] = (0x03 * temp[ 3]) ^ temp[ 7] ^ temp[11] ^ (0x02 * temp[15]);
 }

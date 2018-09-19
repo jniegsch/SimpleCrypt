@@ -144,4 +144,14 @@ extern inline uint32_t sub_word(uint32_t inp);
  */
 extern inline uint32_t rot_word(uint32_t inp);
 /// @}
+
+#pragma mark - Encryption and Decryption Methods
+/*!
+  @name Encryption and Decryption Methods
+  The encryption and decryption steps on 16 bytes based on the functions defined in the AES algorithm
+ */
+/// @{
+void sub_bytes(uint8_t * inp);
+void inv_sub_bytes(uint8_t * inp);
+/// @}
 #endif /* AESCore_h */

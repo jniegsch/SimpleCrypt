@@ -241,3 +241,21 @@ inline uint32x4 * load_key_expansion(uint8_t * key, AESKeyMode keymode) {
 
   return keySchedule;
 }
+
+#pragma mark - Encryption and Decryption Internal Core
+/*!
+  @brief One round of AES encryption using the round specific key
+
+  Takes the 16 byte data word and encrypts it - dependent on the round - with a specific passed key.
+  It is up to the implementation to ensure that the right key is passed for the correct round. This
+  function is thus "dumb" and does not know what round it is. Also note that the function edits the
+  pointer directly to streamline linking in the overall AES encryption process.
+
+  @warning For the last round, do not use this function use: __gen_aes_encl()
+
+  @param data The pointer to the 16 bytes of data to encrypt
+  @param key The specific key, based on the round, to encrypt with
+ */
+static inline void __gen_aes_encs(uint8x16 * data, uint8x16 key) {
+  
+}
