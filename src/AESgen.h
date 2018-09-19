@@ -48,4 +48,27 @@ typedef struct uint32x4_t {
 
 #endif
 
+#pragma mark - Key Management Internals
+/*!
+ @group Key Management Internals
+ */
+
+/*!
+ @typedef AESKeyMode
+ 
+ @brief An enum setting the key mode.
+ 
+ This enum allows to set which key mode for AES is being uesd: either 128 bits, 192 bits, or 256 bits. By setting this also the rounds of AES are defined
+ 
+ Possible values for the key mode and what it specifies:
+ - aes_128: @code AES-128 [key = 128bits, AES rounds = 10] @endcode
+ - aes_192: @code AES-192 [key = 192bits, AES rounds = 12] @endcode
+ - aes_256: @code AES-256 [key = 256bits, AES rounds = 14] @endcode
+ */
+typedef enum {
+	aes_128 = 10,
+	aes_192 = 12,
+	aes_256 = 14
+} AESKeyMode;
+
 #endif /* AESgen_h */

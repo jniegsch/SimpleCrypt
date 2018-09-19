@@ -68,6 +68,16 @@ static inline uint32x4 u8x16_u32x4(uint8x16 x) {
   return ret;
 }
 
+static inline uint8x16 u8t_u8x16(uint8_t * x) {
+  // no check for actually 16 -> assume external interface checks this
+  uint8x16 ret;
+  ret._[ 0] = x[ 0]; ret._[ 1] = x[ 1]; ret._[ 2] = x[ 2]; ret._[ 3] = x[ 3];
+  ret._[ 4] = x[ 4]; ret._[ 5] = x[ 5]; ret._[ 6] = x[ 6]; ret._[ 7] = x[ 7];
+  ret._[ 8] = x[ 8]; ret._[ 9] = x[ 9]; ret._[10] = x[10]; ret._[11] = x[11];
+  ret._[12] = x[12]; ret._[13] = x[13]; ret._[14] = x[14]; ret._[15] = x[15];
+  return ret;
+}
+
 static inline uint8x16 u8x24_u8x16_f(uint8x24 x) {
   uint8x16 ret;
   ret._[ 0] = x._[ 0]; ret._[ 1] = x._[ 1]; ret._[ 2] = x._[ 2]; ret._[ 3] = x._[ 3];
@@ -112,6 +122,24 @@ static inline uint8x16 u8x32_u8x16_drpf(uint8x32 x) {
 static inline void u8x32_u32_4_split2(uint32x4 * f, uint32x4 * s, uint8x32 x) {
   *f = u8x16_u32x4(u8x32_u8x16_drpl(x));
   *s = u8x16_u32x4(u8x32_u8x16_drpf(x));
+}
+
+static inline void * flatten_uint8(uint8_t * x, int sz) {
+  uint8x16 * ret16 = NULL; uint8x24 * ret24 = NULL; uint8x32 * ret32 = NULL; 
+  switch (sz) {
+    case 16:
+      ret16 = (uint8x16 *) x;
+      return ret16;
+    case 24:
+      ret24 = (uint8x24 *) x;
+      return ret24;
+    case 32:
+      ret32 = (uint8x32 *) x;
+      return ret32;
+    default:
+      // error!
+      return NULL;
+  }
 }
 
 #pragma mark - Key Management: 128
@@ -191,4 +219,25 @@ static void __gen_key_expansion_256(uint32x4 * schedule[15], uint8x32 encKey) {
   __gen_aes_256_expAssist((*schedule)[ 8], (*schedule)[ 9], (*schedule)[10], (*schedule)[11], 0x10, 0);
   __gen_aes_256_expAssist((*schedule)[10], (*schedule)[11], (*schedule)[12], (*schedule)[13], 0x20, 0);
   __gen_aes_256_expAssist((*schedule)[12], (*schedule)[12], (*schedule)[14],           dummy, 0x40, 1);
+}
+
+inline uint32x4 * load_key_expansion(uint8_t * key, AESKeyMode keymode) {
+  uint32x4 * keySchedule = malloc((keymode + 1) * sizeof(uint32x4));
+  switch(keymode) {
+    case aes_128:
+      __gen_key_expansion_128(&keySchedule, *((uint8x16 *)flatten_uint8(key, 16)));
+      break;
+    case aes_192:
+      __gen_key_expansion_192(&keySchedule, *((uint8x24 *)flatten_uint8(key, 24)));
+      break;
+    case aes_256:
+      __gen_key_expansion_256(&keySchedule, *((uint8x32 *)flatten_uint8(key, 32)));
+      break;
+    default:
+      fprintf(stderr, "[%s] %s", __FILE__, aes_mode_error());
+			exit(EXIT_FAILURE);
+			break;
+  }
+
+  return keySchedule;
 }
