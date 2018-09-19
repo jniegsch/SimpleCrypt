@@ -187,7 +187,7 @@ inline uint32x4_t * load_key_expansion(uint8_t * key, AESKeyMode keymode) {
 }
 
 #pragma mark - Encryption and Decryption Core
-inline void aes_arm_enc(uint8x16_t * data, uint8x16_t * keySchedule, AESKeyMode keymode) {
+inline void aes_arm_enc(uint8x16_t * data, uint32x4_t * keySchedule, AESKeyMode keymode) {
 	*data = veorq_u8(*data, keySchedule[ 0]);
 	//			 mix cols		encrypt
 	*data = vaesmcq_u8(vaeseq_u8(*data, (uint8x16_t)keySchedule[1]));
@@ -210,7 +210,7 @@ inline void aes_arm_enc(uint8x16_t * data, uint8x16_t * keySchedule, AESKeyMode 
 	*data = vaeseq_u8(*data, keySchedule[keymode]);
 }
 
-inline void aes_arm_dec(uint8x16_t * data, uint8x16_t * keySchedule, AESKeyMode keymode) {
+inline void aes_arm_dec(uint8x16_t * data, uint32x4_t * keySchedule, AESKeyMode keymode) {
 	*data = veorq_u8(*data, keySchedule[keymode]);
 	if (keymode > 12) {
 		*data = vaesimcq_u8(vaesdq_u8(*data, (uint8x16_t)keySchedule[13]));
