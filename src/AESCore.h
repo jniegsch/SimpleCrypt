@@ -142,6 +142,7 @@ extern inline uint32_t sub_word(uint32_t inp);
 
   @returns A word resulting from the permutation on the input word
  */
+__attribute__((visibility("hidden")))
 extern inline uint32_t rot_word(uint32_t inp);
 /// @}
 
@@ -151,7 +152,22 @@ extern inline uint32_t rot_word(uint32_t inp);
   The encryption and decryption steps on 16 bytes based on the functions defined in the AES algorithm
  */
 /// @{
-void sub_bytes(uint8_t * inp);
-void inv_sub_bytes(uint8_t * inp);
+extern inline void sub_bytes(uint8_t * inp);
+extern inline void inv_sub_bytes(uint8_t * inp);
+extern inline void shift_rows(uint8_t * inp);
+extern inline void inv_shift_rows(uint8_t * inp);
+/*!
+ @brief Applies the MixColumns of the AES algorithm
+ 
+ Mixes the columns as defined by the AES standard released by NIST.
+ The function mixes the columns of the input in place
+ @code
+ [s_1, s_2, s_3, s_4] -> [s'_1, s'_2, s'_3, s'_4]
+ @endcode
+ 
+ @param inp The input block (4 words)
+ */
+extern inline void mix_columns(uint8_t * inp);
+extern inline void inv_mix_columns(uint8_t * inp);
 /// @}
 #endif /* AESCore_h */

@@ -29,9 +29,11 @@
 		#include <wmmintrin.h>
 		#include <emmintrin.h>
 		#include <smmintrin.h>
+		#define intel_active
 	#endif
 #endif
 
+#ifdef intel_active
 #pragma mark - Key Management Internals
 /*!
  @name Key Management Internals
@@ -198,4 +200,5 @@ __attribute__((visibility("hidden"), nonnull(1, 2, 3, 5), target("aes")))
 void aes_ctr_ni(uint8_t * inpt, uint8_t * outt, uint8_t * ivec, unsigned long mlength, uint8_t * epoch_key, AESKeyMode keymode);
 ///@}
 
+#endif /* protection */
 #endif /* AESni_h */

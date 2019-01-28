@@ -1,0 +1,307 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8B47E3E921942D3E00C2CCB7 /* AESarm.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B47E3E121942D3E00C2CCB7 /* AESarm.c */; };
+		8B47E3EA21942D3E00C2CCB7 /* AESgen.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B47E3E221942D3E00C2CCB7 /* AESgen.h */; };
+		8B47E3EB21942D3E00C2CCB7 /* AESni.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B47E3E321942D3E00C2CCB7 /* AESni.c */; };
+		8B47E3EC21942D3E00C2CCB7 /* AESarm.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B47E3E421942D3E00C2CCB7 /* AESarm.h */; };
+		8B47E3ED21942D3E00C2CCB7 /* AESgen.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B47E3E521942D3E00C2CCB7 /* AESgen.c */; };
+		8B47E3EE21942D3E00C2CCB7 /* AESCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B47E3E621942D3E00C2CCB7 /* AESCore.h */; };
+		8B47E3EF21942D3E00C2CCB7 /* AESni.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B47E3E721942D3E00C2CCB7 /* AESni.h */; };
+		8B47E3F021942D3E00C2CCB7 /* AESCore.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B47E3E821942D3E00C2CCB7 /* AESCore.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		8B47E3DA21942D2B00C2CCB7 /* libSimpleCrypt.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libSimpleCrypt.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B47E3E121942D3E00C2CCB7 /* AESarm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = AESarm.c; path = ../AESarm.c; sourceTree = "<group>"; };
+		8B47E3E221942D3E00C2CCB7 /* AESgen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AESgen.h; path = ../AESgen.h; sourceTree = "<group>"; };
+		8B47E3E321942D3E00C2CCB7 /* AESni.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = AESni.c; path = ../AESni.c; sourceTree = "<group>"; };
+		8B47E3E421942D3E00C2CCB7 /* AESarm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AESarm.h; path = ../AESarm.h; sourceTree = "<group>"; };
+		8B47E3E521942D3E00C2CCB7 /* AESgen.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = AESgen.c; path = ../AESgen.c; sourceTree = "<group>"; };
+		8B47E3E621942D3E00C2CCB7 /* AESCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AESCore.h; path = ../AESCore.h; sourceTree = "<group>"; };
+		8B47E3E721942D3E00C2CCB7 /* AESni.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AESni.h; path = ../AESni.h; sourceTree = "<group>"; };
+		8B47E3E821942D3E00C2CCB7 /* AESCore.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = AESCore.c; path = ../AESCore.c; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8B47E3D821942D2B00C2CCB7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8B47E3D121942D2B00C2CCB7 = {
+			isa = PBXGroup;
+			children = (
+				8B47E3E121942D3E00C2CCB7 /* AESarm.c */,
+				8B47E3E421942D3E00C2CCB7 /* AESarm.h */,
+				8B47E3E821942D3E00C2CCB7 /* AESCore.c */,
+				8B47E3E621942D3E00C2CCB7 /* AESCore.h */,
+				8B47E3E521942D3E00C2CCB7 /* AESgen.c */,
+				8B47E3E221942D3E00C2CCB7 /* AESgen.h */,
+				8B47E3E321942D3E00C2CCB7 /* AESni.c */,
+				8B47E3E721942D3E00C2CCB7 /* AESni.h */,
+				8B47E3DB21942D2B00C2CCB7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8B47E3DB21942D2B00C2CCB7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8B47E3DA21942D2B00C2CCB7 /* libSimpleCrypt.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8B47E3D621942D2B00C2CCB7 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B47E3EA21942D3E00C2CCB7 /* AESgen.h in Headers */,
+				8B47E3EF21942D3E00C2CCB7 /* AESni.h in Headers */,
+				8B47E3EE21942D3E00C2CCB7 /* AESCore.h in Headers */,
+				8B47E3EC21942D3E00C2CCB7 /* AESarm.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8B47E3D921942D2B00C2CCB7 /* SimpleCrypt */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8B47E3DE21942D2B00C2CCB7 /* Build configuration list for PBXNativeTarget "SimpleCrypt" */;
+			buildPhases = (
+				8B47E3D621942D2B00C2CCB7 /* Headers */,
+				8B47E3D721942D2B00C2CCB7 /* Sources */,
+				8B47E3D821942D2B00C2CCB7 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SimpleCrypt;
+			productName = SimpleCrypt;
+			productReference = 8B47E3DA21942D2B00C2CCB7 /* libSimpleCrypt.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8B47E3D221942D2B00C2CCB7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = jniegsch;
+				TargetAttributes = {
+					8B47E3D921942D2B00C2CCB7 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+				};
+			};
+			buildConfigurationList = 8B47E3D521942D2B00C2CCB7 /* Build configuration list for PBXProject "SimpleCrypt" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 8B47E3D121942D2B00C2CCB7;
+			productRefGroup = 8B47E3DB21942D2B00C2CCB7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8B47E3D921942D2B00C2CCB7 /* SimpleCrypt */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8B47E3D721942D2B00C2CCB7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B47E3F021942D3E00C2CCB7 /* AESCore.c in Sources */,
+				8B47E3ED21942D3E00C2CCB7 /* AESgen.c in Sources */,
+				8B47E3EB21942D3E00C2CCB7 /* AESni.c in Sources */,
+				8B47E3E921942D3E00C2CCB7 /* AESarm.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		8B47E3DC21942D2B00C2CCB7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		8B47E3DD21942D2B00C2CCB7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		8B47E3DF21942D2B00C2CCB7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DVJTA98K28;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		8B47E3E021942D2B00C2CCB7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DVJTA98K28;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8B47E3D521942D2B00C2CCB7 /* Build configuration list for PBXProject "SimpleCrypt" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8B47E3DC21942D2B00C2CCB7 /* Debug */,
+				8B47E3DD21942D2B00C2CCB7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8B47E3DE21942D2B00C2CCB7 /* Build configuration list for PBXNativeTarget "SimpleCrypt" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8B47E3DF21942D2B00C2CCB7 /* Debug */,
+				8B47E3E021942D2B00C2CCB7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8B47E3D221942D2B00C2CCB7 /* Project object */;
+}

@@ -186,7 +186,7 @@ static inline void __gen_aes_192_expAssist(uint32x4 prev, uint32x4 next1, uint32
 }
 
 static void __gen_key_expansion_192(uint32x4 * schedule[13], uint8x24 encKey) {
-  prepareNextThree; uint32x2 temp;
+  uint32x2 temp;
   
   (*schedule)[0] = u8x24_u32x4_rem(encKey, &temp);
   __gen_aes_192_expAssist((*schedule)[0], (*schedule)[ 1], (*schedule)[ 2], (*schedule)[ 3], &temp, 0x01, 0x02);
@@ -209,7 +209,7 @@ static inline void __gen_aes_256_expAssist(uint32x4 prev1, uint32x4 prev2, uint3
 }
 
 static void __gen_key_expansion_256(uint32x4 * schedule[15], uint8x32 encKey) {
-  uint32x4 dummy;
+	uint32x4 dummy = {0,0,0,0};
   
   u8x32_u32_4_split2(&(*schedule)[0], &(*schedule)[1], encKey);
   __gen_aes_256_expAssist((*schedule)[ 0], (*schedule)[ 1], (*schedule)[ 2], (*schedule)[ 3], 0x01, 0);
@@ -257,5 +257,46 @@ inline uint32x4 * load_key_expansion(uint8_t * key, AESKeyMode keymode) {
   @param key The specific key, based on the round, to encrypt with
  */
 static inline void __gen_aes_encs(uint8x16 * data, uint8x16 key) {
-  
+	// process: sub -> shift -> mix -> addrkey
+	uint8_t * raw = data->_;
+	sub_bytes(raw); shift_rows(raw); mix_columns(raw);
+	// addrkey
+	raw[ 0] = raw[ 0] ^ key._[ 0]; raw[ 1] = raw[ 1] ^ key._[ 1]; raw[ 2] = raw[ 2] ^ key._[ 2];
+	raw[ 3] = raw[ 3] ^ key._[ 3]; raw[ 4] = raw[ 4] ^ key._[ 4]; raw[ 5] = raw[ 5] ^ key._[ 5];
+	raw[ 6] = raw[ 6] ^ key._[ 6]; raw[ 7] = raw[ 7] ^ key._[ 7]; raw[ 8] = raw[ 8] ^ key._[ 8];
+	raw[ 9] = raw[ 9] ^ key._[ 9]; raw[10] = raw[10] ^ key._[10]; raw[11] = raw[11] ^ key._[11];
+	raw[12] = raw[12] ^ key._[12]; raw[13] = raw[13] ^ key._[13]; raw[14] = raw[14] ^ key._[14];
+	raw[15] = raw[15] ^ key._[15];
+}
+/*!
+ @brief One round of AES decryption using the round specific key
+ 
+ Takes the 16 byte data word and encrypts it - dependent on the round - with a specific passed key.
+ It is up to the implementation to ensure that the right key is passed for the correct round. This
+ function is thus "dumb" and does not know what round it is. Also note that the function edits the
+ pointer directly to streamline linking in the overall AES encryption process.
+ 
+ @warning For the last round, do not use this function use: __gen_aes_decf()
+ 
+ @param data The pointer to the 16 bytes of data to encrypt
+ @param key The specific key, based on the round, to encrypt with
+ */
+static inline void __gen_aes_decs(uint8x16 * data, uint8x16 key) {
+	// process: xor -> mix -> shift -> sub
+	uint8_t * raw = data->_;
+	// xor
+	raw[ 0] = raw[ 0] ^ key._[ 0]; raw[ 1] = raw[ 1] ^ key._[ 1]; raw[ 2] = raw[ 2] ^ key._[ 2];
+	raw[ 3] = raw[ 3] ^ key._[ 3]; raw[ 4] = raw[ 4] ^ key._[ 4]; raw[ 5] = raw[ 5] ^ key._[ 5];
+	raw[ 6] = raw[ 6] ^ key._[ 6]; raw[ 7] = raw[ 7] ^ key._[ 7]; raw[ 8] = raw[ 8] ^ key._[ 8];
+	raw[ 9] = raw[ 9] ^ key._[ 9]; raw[10] = raw[10] ^ key._[10]; raw[11] = raw[11] ^ key._[11];
+	raw[12] = raw[12] ^ key._[12]; raw[13] = raw[13] ^ key._[13]; raw[14] = raw[14] ^ key._[14];
+	raw[15] = raw[15] ^ key._[15];
+	// mix & shift & sub
+	inv_mix_columns(raw); inv_shift_rows(raw); inv_sub_bytes(raw);
+}
+
+static inline void __gen_aes_decf(uint8x16 * data, uint8x16 key) {
+	// process: xor -> shift -> sub
+	uint8_t * raw = data->_;
+	
 }
